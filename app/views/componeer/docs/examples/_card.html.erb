@@ -1,0 +1,9 @@
+<%= card(title: "Lançar o canal até março", subtitle: "Canal Exemplo · prazo 31/03/2027") do |c| %>
+  <% c.with_action { status_pill "Ativa", status: :accent } %>
+  <% c.with_action { icon_button "pencil", label: "Editar quest" } %>
+  <p>Ter o canal no ar com 8 vídeos publicados e uma rotina semanal de produção.</p>
+  <% c.with_footer do %>
+    <%= button "Abandonar…", size: :sm, variant: :danger %>
+    <%= button "Concluir quest", size: :sm, icon: "check" %>
+  <% end %>
+<% end %>

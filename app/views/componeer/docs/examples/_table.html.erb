@@ -1,0 +1,15 @@
+<% notes = [
+  { number: 1234, client: "Empresa Exemplo Ltda", issued_on: "05/11/2026", value: "R$ 1.500,00", status: :ok, month: "Novembro de 2026" },
+  { number: 1235, client: "Fictícia Serviços ME", issued_on: "07/11/2026", value: "R$ 820,50", status: :ok, month: "Novembro de 2026" },
+  { number: 1201, client: "Demo Consultoria", issued_on: "28/10/2026", value: "R$ 3.200,00", status: :bad, month: "Outubro de 2026" }
+] %>
+<%= table(rows: notes, min_width: "640px", group_by: ->(note) { note[:month] },
+      row_href: ->(note) { "#nota-#{note[:number]}" }, current: ->(note) { note[:number] == 1235 }) do |t| %>
+  <% t.column("Número") { |note| note[:number] } %>
+  <% t.column("Tomador") { |note| note[:client] } %>
+  <% t.column("Emissão") { |note| note[:issued_on] } %>
+  <% t.column("Valor", align: :right) { |note| note[:value] } %>
+  <% t.column("Situação") do |note| %>
+    <%= status_dot note[:status], style: "margin-right: 7px" %><%= note[:status] == :ok ? "Autorizada" : "Cancelada" %>
+  <% end %>
+<% end %>

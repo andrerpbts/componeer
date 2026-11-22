@@ -1,0 +1,7 @@
+<%= tag.div(**html_attributes("tr-shell", @html)) do %>
+  <%= banner %>
+  <div class="tr-frame">
+    <%= sidebar %>
+    <main class="tr-main" id="main"><%= content %></main>
+  </div>
+<% end %>

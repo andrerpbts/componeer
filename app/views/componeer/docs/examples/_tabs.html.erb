@@ -1,0 +1,5 @@
+<%= tabs(label: "Situação da quest") do |t| %>
+  <% t.with_tab "Ativas", href: "?status=active", count: 7, selected: true %>
+  <% t.with_tab "Concluídas", href: "?status=completed", count: 2 %>
+  <% t.with_tab "Abandonadas", href: "?status=abandoned", count: 1 %>
+<% end %>

@@ -1,0 +1,8 @@
+<%= stack(gap: "10px", style: "max-width: 560px") do %>
+  <%= callout "Nova versão disponível. Reinicie para atualizar.", icon: "refresh" %>
+  <%= callout "Atualização instalada.", variant: :ok %>
+  <%= callout(variant: :warning) do |box| %>
+    O certificado de 2 empresas vence em menos de 30 dias.
+    <% box.with_action { button "Ver empresas", size: :sm } %>
+  <% end %>
+<% end %>

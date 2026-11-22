@@ -1,0 +1,5 @@
+<%= segmented(label: "Visão") do |views| %>
+  <% views.with_item "Dia", href: "?view=day", pressed: true %>
+  <% views.with_item "Semana", href: "?view=week" %>
+  <% views.with_item "Mês", href: "?view=month" %>
+<% end %>

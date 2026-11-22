@@ -1,0 +1,8 @@
+<%= stack do %>
+  <%= card(title: "Bloco A") { "Stack empilha blocos com 16px entre eles." } %>
+  <%= card(title: "Bloco B") do %>
+    <%= cluster do %>
+      <%= button "Um", size: :sm %><%= button "Dois", size: :sm %><%= status_pill "Três", status: :neutral, dot: false %>
+    <% end %>
+  <% end %>
+<% end %>

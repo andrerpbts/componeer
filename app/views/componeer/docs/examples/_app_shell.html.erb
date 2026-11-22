@@ -1,0 +1,12 @@
+<div style="height: 300px; border: 1px solid var(--line)">
+  <%= app_shell do |shell| %>
+    <% shell.with_banner "DEVELOPMENT DATA — kept separate from live data" %>
+    <% shell.with_sidebar(brand: "Workflows") do |sidebar| %>
+      <% sidebar.with_item "Agenda", href: "#agenda", icon: "calendar", current: true %>
+      <% sidebar.with_item "Quests", href: "#quests", icon: "target" %>
+      <% sidebar.with_heading "Negócios" %>
+      <% sidebar.with_item "Invoices", href: "#invoices", icon: "file-invoice" %>
+    <% end %>
+    <%= empty_state "Conteúdo da página" %>
+  <% end %>
+</div>

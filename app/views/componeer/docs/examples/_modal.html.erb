@@ -1,0 +1,9 @@
+<div class="doc-frame" style="height: 300px">
+  <%= modal(title: "Remover empresa?", subtitle: "As notas já baixadas continuam no computador.", close_href: "#") do |m| %>
+    <label class="tr-cluster" style="gap: 10px"><%= check_box_tag :purge, "1", false, class: "tr-check" %> Apagar também as notas baixadas</label>
+    <% m.with_footer do %>
+      <%= button "Cancelar" %>
+      <%= button "Remover empresa", variant: :danger_fill %>
+    <% end %>
+  <% end %>
+</div>

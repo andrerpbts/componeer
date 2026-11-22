@@ -1,0 +1,11 @@
+<div class="doc-frame" style="height: 360px">
+  <%= drawer(title: "Nota 1235", eyebrow: "Fictícia Serviços ME", style: "width: 420px") do |d| %>
+    <% d.with_meta do %>
+      <%= cluster do %><%= status_pill "Autorizada" %><span class="tr-muted">Emitida em 07/11/2026</span><% end %>
+    <% end %>
+    <% d.with_action { button "Abrir PDF", size: :sm, icon: "file-text" } %>
+    <% d.with_action { button "Copiar chave", size: :sm, icon: "copy" } %>
+    <% d.with_section("Tomador") { tag.p("Fictícia Serviços ME · 98.765.432/0001-10") } %>
+    <% d.with_section("Valores") { tag.p("Serviço R$ 820,50 · ISS R$ 41,03", class: "tr-num") } %>
+  <% end %>
+</div>

@@ -1,0 +1,28 @@
+<%= tag.div(**html_attributes(nil, @html, data: { controller: "componeer--period-picker" })) do %>
+  <%= render Componeer::PopoverComponent.new do |popover| %>
+    <% popover.with_trigger do %>
+      <button type="button" class="tr-btn" style="font-weight: 400" aria-label="<%= @label %>" aria-expanded="false">
+        <%= icon_svg("calendar") %><span data-componeer--period-picker-target="summary"><%= summary %></span>
+      </button>
+    <% end %>
+    <div style="display: flex; flex-wrap: wrap; width: 400px; max-width: calc(100vw - 32px)">
+      <% if @presets.any? %>
+        <div class="tr-presets" style="border-right: 1px solid var(--line-soft)">
+          <% @presets.each do |preset| %>
+            <button type="button" aria-pressed="<%= current?(preset) %>" data-action="componeer--period-picker#pick"
+              data-from="<%= preset.from&.iso8601 %>" data-to="<%= preset.to&.iso8601 %>"><%= preset.label %></button>
+          <% end %>
+        </div>
+      <% end %>
+      <div style="flex: 1 1 180px; display: flex; flex-direction: column; gap: 10px; padding: 12px 14px">
+        <strong><%= @title %></strong>
+        <label class="tr-field">De
+          <input class="tr-input" type="date" name="<%= @from_name %>" value="<%= @from&.iso8601 %>" data-componeer--period-picker-target="from" data-action="change->componeer--period-picker#change">
+        </label>
+        <label class="tr-field">Até
+          <input class="tr-input" type="date" name="<%= @to_name %>" value="<%= @to&.iso8601 %>" data-componeer--period-picker-target="to" data-action="change->componeer--period-picker#change">
+        </label>
+      </div>
+    </div>
+  <% end %>
+<% end %>

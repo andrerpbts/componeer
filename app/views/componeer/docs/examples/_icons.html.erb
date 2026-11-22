@@ -1,0 +1,7 @@
+<%= cluster(gap: "12px 4px") do %>
+  <% %w[calendar target folder list search filter plus check x pencil trash copy download refresh settings lock building file-text clock alert-triangle info-circle chevron-down dots-vertical columns repeat].each do |name| %>
+    <span style="display: flex; flex-direction: column; align-items: center; gap: 6px; width: 92px; font-size: 11px; color: var(--muted)">
+      <span style="color: var(--ink)"><%= icon name, size: 20 %></span><%= name %>
+    </span>
+  <% end %>
+<% end %>

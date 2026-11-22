@@ -1,0 +1,12 @@
+<div style="min-height: 330px">
+  <%= multi_select name: :projects, label: "Projetos", icon: "folder",
+        all_label: "Todos os projetos", none_label: "Nenhum projeto", many_label: "%{count} projetos",
+        selected: %w[exemplo canal],
+        searchable: true, search_placeholder: "Buscar projeto",
+        options: [
+          { value: "exemplo", label: "Empresa Exemplo", sub: "3 missões abertas", color: "#4f46e5" },
+          { value: "canal", label: "Canal Exemplo", sub: "5 missões abertas", color: "#0d9488" },
+          { value: "cliente", label: "Cliente Fictício", sub: "1 missão aberta", color: "#0284c7" },
+          { value: "interno", label: "Projeto Interno", sub: "Nenhuma missão aberta", color: "#6b7280" }
+        ] %>
+</div>

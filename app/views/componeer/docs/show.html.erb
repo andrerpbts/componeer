@@ -1,0 +1,32 @@
+<%= page_header(title: @page.title, subtitle: @page.lead) %>
+<article class="doc-article">
+  <% if @page.helper %>
+    <pre class="doc-code doc-signature"><code><%= @page.helper %></code></pre>
+  <% end %>
+  <% @page.sections.each do |section| %>
+    <section class="doc-section">
+      <% if section.heading %><h2><%= section.heading %></h2><% end %>
+      <%= doc_text(section.text) if section.text %>
+      <% if section.code %><pre class="doc-code"><code><%= section.code.strip %></code></pre><% end %>
+      <%= doc_example(section.example) if section.example %>
+    </section>
+  <% end %>
+  <% if @page.options.any? %>
+    <section class="doc-section">
+      <h2>Options</h2>
+      <%= table(rows: @page.options) do |t| %>
+        <% t.column("Option") { |option| tag.code(option.name) } %>
+        <% t.column("What it does") { |option| tag.span(option.description, style: "white-space: normal") } %>
+      <% end %>
+    </section>
+  <% end %>
+  <% if @page.slots.any? %>
+    <section class="doc-section">
+      <h2>Slots</h2>
+      <%= table(rows: @page.slots) do |t| %>
+        <% t.column("Slot") { |slot| tag.code(slot.name) } %>
+        <% t.column("What goes in it") { |slot| tag.span(slot.description, style: "white-space: normal") } %>
+      <% end %>
+    </section>
+  <% end %>
+</article>
