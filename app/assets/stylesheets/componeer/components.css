@@ -172,6 +172,7 @@
 .tr-table tbody tr.is-current { box-shadow: inset 3px 0 0 var(--accent); }
 .tr-table tr.tr-table__group { background: var(--row-group); }
 .tr-empty { padding: 48px 20px; text-align: center; color: var(--muted); }
+.tr-table tr.tr-table__empty td { height: auto; padding: 0; white-space: normal; border-bottom: 0; }
 
 /* Drawer */
 .tr-drawer { position: fixed; top: 0; right: 0; bottom: 0; z-index: 40; width: var(--drawer-w); max-width: 100%; display: flex; flex-direction: column; background: var(--surface); border-left: 1px solid var(--field); box-shadow: var(--shadow-drawer); }
@@ -229,8 +230,8 @@ a.tr-tab { text-decoration: none; }
 .tr-sidebar__brand + .tr-sidebar__heading { margin-top: 0; padding-top: 0; border-top: 0; }
 
 /* Code block (intentional addition: source code with syntax colours, used by Componeer docs) */
-.tr-code { margin: 0; min-width: 0; overflow: hidden; border: 1px solid var(--line-soft); border-radius: var(--radius); background: var(--code-bg); }
-.tr-code__bar { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 34px; padding: 2px 4px 2px 12px; border-bottom: 1px solid var(--line-soft); font-size: 12px; color: var(--muted); }
+.tr-code { margin: 0; min-width: 0; overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius); background: var(--code-bg); }
+.tr-code__bar { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 34px; padding: 2px 4px 2px 12px; border-bottom: 1px solid var(--line-soft); background: var(--surface-3); font-size: 12px; color: var(--muted); }
 .tr-code__bar .tr-btn { height: 26px; color: var(--muted-2); }
 .tr-code__pre { margin: 0; padding: 12px 14px; overflow-x: auto; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; color: var(--code-ink); tab-size: 2; user-select: text; }
 .tr-code :is(.k, .kd, .kn, .kp, .kr, .kv, .ow, .nb, .bp) { color: var(--code-keyword); }

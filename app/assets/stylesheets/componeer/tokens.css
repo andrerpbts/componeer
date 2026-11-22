@@ -44,7 +44,7 @@
   --sandbox: #5b3fd1;
   --toast: var(--ink);
   --scrim: rgba(15, 23, 32, 0.32);
-  --code-bg: var(--surface-3);
+  --code-bg: var(--surface);
   --code-ink: var(--ink-2);
   --code-keyword: #7c2ea3;
   --code-string: #12703f;

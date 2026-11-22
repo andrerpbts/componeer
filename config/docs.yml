@@ -471,7 +471,7 @@
       text: A column header can be any markup, like a select-all checkbox. Put row actions in a narrow right-aligned last column as icon buttons with labels that name the record.
       example: table_actions
     - heading: Without data
-      text: "With no rows the table renders an empty state instead. `empty:` takes a plain sentence; `t.empty { … }` takes any markup, usually an `empty_state` with an icon, a description that names the filter and a way out."
+      text: "With no rows the table keeps its header, so it still reads as a table, and shows an empty state across the body. `empty:` takes a plain sentence (first card); `t.empty { … }` takes any markup, usually an `empty_state` with an icon, a description that names the filter and a way out (second card)."
       example: table_empty
     - heading: In a card, with pagination
       text: "`card(flush: true)` lets the table fill the card edge to edge; `pagination` goes in the card footer."

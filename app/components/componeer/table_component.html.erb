@@ -1,23 +1,22 @@
-<% if @rows.empty? %>
-  <%= empty_content %>
-<% else %>
-  <%= tag.div(**html_attributes(nil, @html, style: "overflow-x: auto")) do %>
-    <table class="tr-table" <% if @min_width %>style="min-width: <%= @min_width %>"<% end %>>
-      <thead>
-        <tr><% @columns.each do |column| %><th scope="col" style="<%= align_style(column) %>"><%= column.header %></th><% end %></tr>
-      </thead>
-      <tbody>
-        <% groups.each do |label, rows| %>
-          <% if label %>
-            <tr class="tr-table__group"><td colspan="<%= @columns.size %>"><strong><%= label %></strong> · <%= rows.size %></td></tr>
-          <% end %>
-          <% rows.each do |row| %>
-            <%= tag.tr(**row_attributes(row)) do %>
-              <% @columns.each do |column| %><td style="<%= align_style(column) %>"><%= cell(column, row) %></td><% end %>
-            <% end %>
+<%= tag.div(**html_attributes(nil, @html, style: "overflow-x: auto")) do %>
+  <table class="tr-table" <% if @min_width %>style="min-width: <%= @min_width %>"<% end %>>
+    <thead>
+      <tr><% @columns.each do |column| %><th scope="col" style="<%= align_style(column) %>"><%= column.header %></th><% end %></tr>
+    </thead>
+    <tbody>
+      <% if @rows.empty? %>
+        <tr class="tr-table__empty"><td colspan="<%= [ @columns.size, 1 ].max %>"><%= empty_content %></td></tr>
+      <% end %>
+      <% groups.each do |label, rows| %>
+        <% if label %>
+          <tr class="tr-table__group"><td colspan="<%= @columns.size %>"><strong><%= label %></strong> · <%= rows.size %></td></tr>
+        <% end %>
+        <% rows.each do |row| %>
+          <%= tag.tr(**row_attributes(row)) do %>
+            <% @columns.each do |column| %><td style="<%= align_style(column) %>"><%= cell(column, row) %></td><% end %>
           <% end %>
         <% end %>
-      </tbody>
-    </table>
-  <% end %>
+      <% end %>
+    </tbody>
+  </table>
 <% end %>

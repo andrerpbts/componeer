@@ -25,7 +25,7 @@ module Componeer
     end
 
     def empty_content
-      @empty_block ? helpers.capture(&@empty_block) : render(EmptyStateComponent.new(@empty))
+      @empty_block ? helpers.capture(&@empty_block) : render(EmptyStateComponent.new(@empty, size: :sm))
     end
 
     def before_render
@@ -33,6 +33,8 @@ module Componeer
     end
 
     def groups
+      return {} if @rows.empty?
+
       @group_by ? @rows.group_by(&@group_by) : { nil => @rows }
     end
 

@@ -27,7 +27,8 @@ RSpec.describe Componeer::TableComponent, type: :component do
   context "without rows" do
     before { render_inline(described_class.new(rows: [], empty: "Nenhuma nota.")) { |table| table.column("Número") { |row| row } } }
 
-    it { expect(page).to have_css(".tr-empty-state .tr-empty-state__title", text: "Nenhuma nota.") }
+    it { expect(page).to have_css("table thead th", text: "Número") }
+    it { expect(page).to have_css("tbody tr.tr-table__empty td[colspan='1'] .tr-empty-state__title", text: "Nenhuma nota.") }
   end
 
   context "without rows and a custom empty block" do
@@ -38,7 +39,6 @@ RSpec.describe Componeer::TableComponent, type: :component do
       end
     end
 
-    it { expect(page).to have_text("Nada aqui, limpe os filtros") }
-    it { expect(page).to have_no_css("table") }
+    it { expect(page).to have_css("tr.tr-table__empty td", text: "Nada aqui, limpe os filtros") }
   end
 end

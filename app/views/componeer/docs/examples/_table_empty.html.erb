@@ -1,14 +1,24 @@
 <%= stack do %>
-  <%= table(rows: [], empty: "Nenhuma nota por aqui.") do |t| %>
-    <% t.column("Número") { |note| note } %>
+  <%= card(title: "Notas emitidas", subtitle: "Só com o texto padrão", flush: true) do %>
+    <%= table(rows: [], empty: "Nenhuma nota por aqui.") do |t| %>
+      <% t.column("Número") { |note| note } %>
+      <% t.column("Tomador") { |note| note } %>
+      <% t.column("Emissão") { |note| note } %>
+      <% t.column("Valor", align: :right) { |note| note } %>
+    <% end %>
   <% end %>
 
-  <%= table(rows: []) do |t| %>
-    <% t.column("Número") { |note| note } %>
-    <% t.empty do %>
-      <%= empty_state "Nenhuma nota neste filtro", icon: "file-search",
-            description: "Nenhuma nota emitida entre 01/11 e 30/11 para Demo Consultoria." do |e| %>
-        <% e.with_action { button "Limpar filtros", icon: "filter-off" } %>
+  <%= card(title: "Notas emitidas", subtitle: "Com um empty state completo", flush: true) do %>
+    <%= table(rows: []) do |t| %>
+      <% t.column("Número") { |note| note } %>
+      <% t.column("Tomador") { |note| note } %>
+      <% t.column("Emissão") { |note| note } %>
+      <% t.column("Valor", align: :right) { |note| note } %>
+      <% t.empty do %>
+        <%= empty_state "Nenhuma nota neste filtro", icon: "file-search",
+              description: "Nenhuma nota emitida entre 01/11 e 30/11 para Demo Consultoria." do |e| %>
+          <% e.with_action { button "Limpar filtros", icon: "filter-off" } %>
+        <% end %>
       <% end %>
     <% end %>
   <% end %>
