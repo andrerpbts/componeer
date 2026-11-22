@@ -34,7 +34,7 @@ module Componeer
     def icon_gallery_grid(names, variant:)
       tiles = names.map do |name|
         code = variant == :filled ? %(icon "#{name}", variant: :filled) : %(icon "#{name}")
-        tag.button(safe_join([ render(Componeer::IconComponent.new(name, size: 24, variant: variant)), tag.span(name) ]),
+        tag.button(safe_join([ render(Componeer::IconComponent.new(name, size: 32, variant: variant)), tag.span(name) ]),
           type: "button", class: "doc-icon", title: name, data: { code: code, action: "docs-icons#copy" })
       end
       tag.div safe_join(tiles), class: "doc-icon-grid"

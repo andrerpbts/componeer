@@ -38,6 +38,13 @@ RSpec.describe "Docs" do
     it { expect(response.body.scan('class="doc-icon"').size).to eq(Componeer::IconGallery.new.names.size) }
   end
 
+  describe "GET /componeer/icon?q=arrow&letter=c" do
+    before { get "/componeer/icon", params: { q: "arrow", letter: "c" } }
+
+    it { expect(response.body).to include("letter=a&amp;q=arrow&amp;variant=outline") }
+    it { expect(response.body).to include('aria-disabled="true" title="Nenhum ícone">Z<') }
+  end
+
   describe "GET /componeer/icon?q=calendar&variant=filled" do
     before { get "/componeer/icon", params: { q: "calendar", variant: "filled" } }
 

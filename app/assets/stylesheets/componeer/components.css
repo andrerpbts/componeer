@@ -18,7 +18,8 @@
 .tr-num { font-variant-numeric: tabular-nums; }
 .tr-muted { color: var(--muted); }
 .tr-sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-.tr-icon { flex-shrink: 0; width: 16px; height: 16px; }
+.tr-icon { flex-shrink: 0; }
+.tr-icon:not([width]) { width: 16px; height: 16px; }
 
 /* Button */
 .tr-btn {
@@ -244,8 +245,8 @@ a.tr-tab { text-decoration: none; }
 
 /* Pagination (intentional addition: page links for long lists) */
 .tr-pagination { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; }
-.tr-pagination a[aria-current="page"] { background: var(--accent); border-color: var(--accent-dark); color: var(--on-accent); font-weight: 600; }
-.tr-pagination [aria-disabled="true"] { opacity: 0.45; cursor: default; }
+.tr-pagination .tr-btn[aria-current="page"], .tr-pagination .tr-btn[aria-current="page"]:hover:not(:disabled) { background: var(--accent); border-color: var(--accent-dark); color: var(--on-accent); font-weight: 600; }
+.tr-pagination .tr-btn[aria-disabled="true"], .tr-pagination .tr-btn[aria-disabled="true"]:hover:not(:disabled) { opacity: 0.45; background: var(--surface); cursor: default; }
 .tr-pagination__gap { padding: 0 4px; color: var(--muted); }
 
 /* Empty state (replaces the bare tr-empty line: icon, title, description, actions) */
