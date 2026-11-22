@@ -1,0 +1,8 @@
+<div class="doc-frame" style="height: 160px">
+  <%= toasts do %>
+    <%= toast "12 notas sincronizadas.", dismiss_after: 0 do |t| %>
+      <% t.with_action { button "Ver", size: :sm, variant: :ghost } %>
+    <% end %>
+    <%= toast "Não foi possível conectar. Tente de novo em alguns minutos.", variant: :error, dismiss_after: 0 %>
+  <% end %>
+</div>

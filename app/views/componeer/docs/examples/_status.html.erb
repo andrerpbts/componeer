@@ -1,0 +1,16 @@
+<%= stack(gap: "12px") do %>
+  <%= cluster(gap: "16px") do %>
+    <span class="tr-cluster" style="gap: 7px"><%= status_dot :ok %>Autorizada</span>
+    <span class="tr-cluster" style="gap: 7px"><%= status_dot :warn %>Pendente</span>
+    <span class="tr-cluster" style="gap: 7px"><%= status_dot :bad %>Cancelada</span>
+    <span class="tr-cluster" style="gap: 7px"><%= status_dot %>Substituída</span>
+  <% end %>
+  <%= cluster do %>
+    <%= status_pill "Autorizada" %>
+    <%= status_pill "Cancelada", status: :bad %>
+    <%= status_pill "Substituída", status: :neutral, dot: false %>
+    <%= status_pill "Ativa", status: :accent %>
+    <%= counter 1204 %>
+    <%= badge "+3" %>
+  <% end %>
+<% end %>

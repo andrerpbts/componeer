@@ -1,0 +1,17 @@
+<%= stack(style: "max-width: 420px") do %>
+  <%= search_input name: :q, placeholder: "Buscar por número, chave, nome ou CNPJ" %>
+  <%= field "Nome da empresa" do %>
+    <%= text_field_tag :name, "Empresa Exemplo Ltda", class: "tr-input" %>
+  <% end %>
+  <%= field "Ambiente", hint: "Notas de homologação não têm validade jurídica." do %>
+    <%= select_tag :environment, options_for_select(%w[Produção Homologação]), class: "tr-select" %>
+  <% end %>
+  <%= field "E-mail", error: "Informe um e-mail válido, como nome@exemplo.com." do %>
+    <%= email_field_tag :email, "nome@", class: "tr-input", aria: { invalid: true } %>
+  <% end %>
+  <%= cluster(gap: "20px") do %>
+    <label class="tr-cluster"><%= check_box_tag :canceled, "1", true, class: "tr-check" %> Mostrar canceladas</label>
+    <label class="tr-cluster"><%= radio_button_tag :kind, "issued", true, class: "tr-check" %> Emitidas</label>
+    <label class="tr-cluster"><%= radio_button_tag :kind, "received", false, class: "tr-check" %> Recebidas</label>
+  <% end %>
+<% end %>

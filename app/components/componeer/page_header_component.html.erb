@@ -1,0 +1,11 @@
+<%= tag.header(**html_attributes("tr-page-head", @html)) do %>
+  <div class="tr-page-header">
+    <div class="tr-page-header__titles">
+      <h1><%= @title %></h1>
+      <% if @subtitle %><p class="tr-page-header__sub"><%= @subtitle %></p><% end %>
+    </div>
+    <% actions.each do |action| %><%= action %><% end %>
+  </div>
+  <% if filters? %><div class="tr-filters"><%= filters %></div><% end %>
+  <%= tabs %>
+<% end %>

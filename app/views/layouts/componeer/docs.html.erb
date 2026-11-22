@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title><%= [ @page&.title, "Componeer" ].compact.join(" · ") %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= componeer_stylesheets %>
+    <%= stylesheet_link_tag "componeer/docs" %>
+    <%= javascript_importmap_tags "componeer/docs" if respond_to?(:javascript_importmap_tags) %>
+  </head>
+  <body class="tr-root">
+    <%= app_shell do |shell| %>
+      <% shell.with_sidebar(brand: "Componeer", brand_href: componeer.root_path, label: "Documentation") do |sidebar| %>
+        <% Componeer::DocPage.grouped.each do |group, pages| %>
+          <% sidebar.with_heading(group) %>
+          <% pages.each do |page| %>
+            <% sidebar.with_item(page.title, href: componeer.doc_path(page), current: page == @page) %>
+          <% end %>
+        <% end %>
+        <% sidebar.with_footer do %>
+          <p class="doc-version">v<%= Componeer::VERSION %> · Trail UI</p>
+        <% end %>
+      <% end %>
+      <%= yield %>
+    <% end %>
+  </body>
+</html>

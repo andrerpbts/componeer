@@ -1,0 +1,17 @@
+<div style="border: 1px solid var(--line)">
+  <%= page_header(title: "Notas", subtitle: "Última sincronização: há 5 minutos") do |header| %>
+    <% header.with_action { button "Exportar filtro…", icon: "download" } %>
+    <% header.with_action { button "Sincronizar", variant: :primary, icon: "refresh" } %>
+    <% header.with_filters do %>
+      <%= search_input placeholder: "Buscar por número, chave, nome ou CNPJ" %>
+      <%= multi_select name: :companies, label: "Empresas", icon: "building",
+            all_label: "Todas as empresas", none_label: "Nenhuma empresa", many_label: "%{count} empresas",
+            options: [ { value: 1, label: "Empresa Exemplo Ltda" }, { value: 2, label: "Fictícia Serviços ME" } ] %>
+    <% end %>
+    <% header.with_tabs(label: "Tipo de nota") do |tabs| %>
+      <% tabs.with_tab "Emitidas", href: "#emitidas", count: 1204, selected: true %>
+      <% tabs.with_tab "Recebidas", href: "#recebidas", count: 318 %>
+      <% tabs.with_action { button "Colunas", size: :sm, icon: "columns" } %>
+    <% end %>
+  <% end %>
+</div>

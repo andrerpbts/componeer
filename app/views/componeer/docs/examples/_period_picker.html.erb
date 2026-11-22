@@ -1,0 +1,9 @@
+<div style="min-height: 280px">
+  <%= period_picker from: Date.new(2026, 11, 1), to: Date.new(2026, 11, 30), title: "Data de emissão",
+        presets: [
+          { label: "Este mês", from: Date.new(2026, 11, 1), to: Date.new(2026, 11, 30) },
+          { label: "Mês passado", from: Date.new(2026, 10, 1), to: Date.new(2026, 10, 31) },
+          { label: "Este ano", from: Date.new(2026, 1, 1), to: Date.new(2026, 12, 31) },
+          { label: "Qualquer data", from: nil, to: nil }
+        ] %>
+</div>

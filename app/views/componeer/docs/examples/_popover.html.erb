@@ -1,0 +1,8 @@
+<div style="min-height: 160px">
+  <%= popover do |p| %>
+    <% p.with_trigger { button "Colunas", icon: "columns", aria: { expanded: false } } %>
+    <div style="width: 260px; padding: 12px 14px">
+      <p class="tr-muted">Qualquer conteúdo: um formulário, uma lista de opções, uma explicação.</p>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,6 @@
+<%= tag.nav(**html_attributes("tr-sidebar", @html, aria: { label: @label })) do %>
+  <%= link_to (brand_logo? ? brand_logo : @brand), @brand_href, class: "tr-sidebar__brand", style: "text-decoration: none" %>
+  <% entries.each do |entry| %><%= entry %><% end %>
+  <div class="tr-sidebar__grow"></div>
+  <%= footer %>
+<% end %>

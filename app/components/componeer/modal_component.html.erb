@@ -1,0 +1,13 @@
+<%= tag.div(**html_attributes("tr-modal", @html, data: { controller: "componeer--dismissable", action: "keydown.esc@window->componeer--dismissable#dismiss" })) do %>
+  <% if @close_href %><a hidden href="<%= @close_href %>" data-componeer--dismissable-target="close"></a><% end %>
+  <div class="tr-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="<%= title_id %>" style="width: <%= @width %>">
+    <div class="tr-modal__header">
+      <div class="tr-modal__titles">
+        <h2 id="<%= title_id %>"><%= @title %></h2>
+        <% if @subtitle %><p class="tr-muted"><%= @subtitle %></p><% end %>
+      </div>
+    </div>
+    <% if content? %><div class="tr-modal__body"><%= content %></div><% end %>
+    <% if footer? %><div class="tr-modal__footer"><%= footer %></div><% end %>
+  </div>
+<% end %>

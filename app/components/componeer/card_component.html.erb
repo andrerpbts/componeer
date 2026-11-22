@@ -1,0 +1,13 @@
+<%= tag.section(**html_attributes(class_names("tr-card", "tr-card--flush" => @flush), @html)) do %>
+  <% if header? %>
+    <header class="tr-card__header">
+      <div class="tr-card__titles">
+        <% if @title %><h2 class="tr-card__title"><%= @title %></h2><% end %>
+        <% if @subtitle %><p class="tr-card__subtitle"><%= @subtitle %></p><% end %>
+      </div>
+      <% actions.each do |action| %><%= action %><% end %>
+    </header>
+  <% end %>
+  <div class="tr-card__body"><%= content %></div>
+  <% if footer? %><footer class="tr-card__footer"><%= footer %></footer><% end %>
+<% end %>

@@ -1,0 +1,326 @@
+# Pages of the bundled documentation (/componeer), in sidebar order.
+# Each section may have a heading, text (blank line = new paragraph, `code` in backticks),
+# a code block, and an example (a partial in app/views/componeer/docs/examples).
+
+- slug: getting_started
+  title: Getting started
+  group: Guides
+  lead: Trail UI for Rails views, written as helpers that nest.
+  sections:
+    - text: |
+        Componeer renders the Trail UI design system in Rails. Every component is a ViewComponent class exposed as a view helper, so a screen is a tree of helper calls: `page_header`, `card`, `table`, `button`… Each helper takes options and, when it holds content, a block.
+
+        Trail UI itself (tokens, rules, previews) lives in its design system artifact. This gem is its Rails implementation: the CSS here is generated from it, and component changes start there.
+    - heading: Install
+      text: Componeer is private. Add it from git and bundle.
+      code: |
+        # Gemfile
+        gem "componeer", git: "https://github.com/andrerpbts/componeer.git"
+    - heading: Stylesheets
+      text: Load the tokens and the component styles in your layout, and put `tr-root` on the body for the base font and colours.
+      code: |
+        <head>
+          <%= componeer_stylesheets %>
+        </head>
+        <body class="tr-root">
+    - heading: JavaScript
+      text: |
+        Popovers, the multi-select, the period picker, row links and dismissable overlays use Stimulus. With importmap-rails and stimulus-rails, the engine pins its controllers for you; register them once.
+
+        Without importmap, copy `app/javascript/componeer` into your bundle and import it the same way.
+      code: |
+        // app/javascript/controllers/index.js
+        import { application } from "controllers/application"
+        import { registerComponeer } from "componeer"
+        registerComponeer(application)
+    - heading: Documentation
+      text: Mount the engine to browse these pages inside your own app, with your own data and layout around them. Mount it only where you want it, for example in development.
+      code: |
+        # config/routes.rb
+        mount Componeer::Engine => "/componeer" if Rails.env.development?
+
+- slug: composition
+  title: Composing screens
+  group: Guides
+  lead: "Blocks inside blocks: helpers take blocks, and blocks call more helpers."
+  sections:
+    - text: |
+        A helper with a block renders its component around whatever the block outputs. Inside the block you write normal ERB, including other Componeer helpers, partials or your own markup. That is how screens are built: a `stack` of `card`s, a `card` holding a `table`, a `table` cell holding a `status_pill`.
+      example: composition
+    - heading: Slots
+      text: |
+        Some components have named areas besides their main content: a card's `actions` and `footer`, a page header's `filters` and `tabs`. The block receives the component; call `with_<slot>` on it to fill a slot. A slot's block can itself call helpers.
+
+        Slots that hold a single helper read well as one-liners: `header.with_action { button "Sincronizar", variant: :primary }`.
+      example: card
+    - heading: Layout blocks
+      text: "`stack` piles blocks vertically with a 16px gap; `cluster` lines up inline items that wrap. Both take `gap:` and any HTML attribute."
+      example: stack_cluster
+
+- slug: custom_components
+  title: Your own components
+  group: Guides
+  lead: Register an app component and it becomes a helper too.
+  sections:
+    - text: |
+        Build app-specific blocks the same way: a ViewComponent (subclassing `Componeer::Component` gives you `html_attributes` and `icon_svg`) whose template uses Componeer helpers. Register it in an initializer and call it like any built-in.
+
+        A name that would override an Action View helper (`select`, `label`, `search_field`…) is refused at boot.
+      code: |
+        # app/components/quest_card_component.rb
+        class QuestCardComponent < Componeer::Component
+          def initialize(quest:)
+            @quest = quest
+          end
+        end
+
+        <%# app/components/quest_card_component.html.erb %>
+        <%= card(title: @quest.title, subtitle: @quest.project.name) do |c| %>
+          <% c.with_action { status_pill @quest.status_label, status: :accent } %>
+          <%= content %>
+        <% end %>
+
+        # config/initializers/componeer.rb
+        Componeer.register :quest_card, "QuestCardComponent"
+
+        <%# any view %>
+        <%= quest_card(quest: @quest) do %>
+          <%= render @quest.missions %>
+        <% end %>
+    - heading: Extra icons
+      text: Point Componeer at folders of your own SVGs. They are looked up before the bundled Tabler set, so `icon "logo"` finds `app/assets/icons/logo.svg`.
+      code: |
+        Componeer.configure do |config|
+          config.icon_paths << Rails.root.join("app/assets/icons")
+        end
+
+- slug: foundations
+  title: Foundations
+  group: Guides
+  lead: Tokens, type and the rules every screen follows.
+  sections:
+    - text: |
+        Colours, type, spacing, radii and sizes are CSS custom properties from `componeer/tokens.css` (`var(--ink)`, `var(--accent)`, `var(--space-20)`, `var(--control-h)`…). Use them for anything you style yourself; never hard-code a hex value next to Componeer.
+
+        Pages are `surface` with `ink` text. `accent` marks what is active or primary and is used sparingly. Status colours (`ok`, `warn`, `bad`) are separate from the accent and always come with a word. Regions are separated by 1px lines, not shadows; only what floats (popovers, drawer, modal, toasts) has a shadow.
+
+        Copy is pt-BR, sentence case, verb-first on buttons ("Sincronizar", "Exportar filtro…"). Numbers and dates in pt-BR ("1.204", "R$ 1.500,00", "07/11/2026").
+
+        With Tailwind in the same app, keep Tailwind for layout if you like, but take colours, type, radii and component looks from Componeer.
+
+- slug: icon
+  title: Icon
+  group: Foundations
+  lead: The whole Tabler outline set (3.19), inlined so icons take the text colour.
+  helper: "icon(name, size: 16, label: nil, **html)"
+  sections:
+    - text: Use the Tabler name (`file-text`, `alert-triangle`; underscores work too). Icons are decorative and hidden from screen readers unless you pass `label:`. Buttons take `icon:` directly.
+      example: icons
+  options:
+    - [name, "Tabler outline icon name, or the name of an SVG in a configured icon path."]
+    - [size, "Pixels. 16 in controls, 14 for chevrons, 20 at most elsewhere."]
+    - [label, "Accessible name; makes the icon role=img instead of hidden."]
+
+- slug: button
+  title: Button
+  group: Actions
+  lead: Every action, with one modifier for its role.
+  helper: "button(label = nil, variant: :default, size: :md, icon: nil, href: nil, type: \"button\", **html)"
+  sections:
+    - text: "`primary` is the one action the page exists for, at most once per view. `danger` marks destructive actions that still confirm; `danger_fill` is only the confirming button inside a modal. With `href:` it renders a link. Pass a block instead of `label` for custom content."
+      example: button_variants
+    - heading: Small and icon-only
+      text: "Use `size: :sm` in toolbars, footers and panels. `icon_button` is a 30px square that needs a `label:` for screen readers."
+      example: button_sizes
+  options:
+    - [variant, ":default, :primary, :danger, :danger_fill, :ghost"]
+    - [size, ":md (34px) or :sm (30px)"]
+    - [icon, "Tabler icon shown before the label"]
+    - [href, "Render an <a> instead of a <button>; data-turbo-method etc. go in **html"]
+    - [type, "Button type when not a link: button (default) or submit"]
+
+- slug: segmented
+  title: Segmented
+  group: Actions
+  lead: Switch between 2–4 views of the same data.
+  helper: "segmented(label:) { |s| s.with_item(label, href: nil, pressed: false) }"
+  sections:
+    - text: Items with `href:` are links (the current one gets aria-current); without it they are buttons with aria-pressed for Stimulus to drive. For filters use a multi-select; for record subsets with counts use tabs.
+      example: segmented
+
+- slug: field
+  title: Fields
+  group: Forms
+  lead: Inputs, selects, checkboxes and the search field, all 34px to line up with buttons.
+  helper: "field(label, hint: nil, error: nil) { control }"
+  sections:
+    - text: "`field` wraps any control with its label and a hint or error. Style the control with `tr-input`, `tr-select` or `tr-check` (also through form builders: `f.text_field :name, class: \"tr-input\"`). `search_input` is the search box with its icon; in a page header's filters row it grows to fill the row."
+      example: field
+  options:
+    - [label, "Text before the control"]
+    - [hint, "Muted help line under the control"]
+    - [error, "Error line under the control; also set aria-invalid on the control"]
+
+- slug: toggle_switch
+  title: Switch
+  group: Forms
+  lead: An on/off setting that applies right away.
+  helper: "toggle_switch(name, label:, checked: false, value: \"1\", **html)"
+  sections:
+    - text: It is a real checkbox with role=switch, so it submits with forms. When the change is only saved with the form, prefer a plain checkbox.
+      example: toggle_switch
+
+- slug: status
+  title: Status
+  group: Status
+  lead: Dots, pills, counters and badges.
+  helper: "status_dot(status = :neutral) · status_pill(label, status: :ok, dot: true) · counter(n) · badge(text)"
+  sections:
+    - text: "`status_dot` (:ok, :warn, :bad, :neutral, or `color:` for a project colour) sits before a status word in lists; never alone. `status_pill` shows one record's state in a header (:ok, :bad, :neutral, :accent, :warn). `counter` is the number behind a tab or option, with the locale's thousands separator. `badge` is a \"+N\" on a button."
+      example: status
+
+- slug: callout
+  title: Callout
+  group: Status
+  lead: Inline messages inside a page or panel.
+  helper: "callout(text = nil, variant: :info, icon: nil) { |c| c.with_action { … } }"
+  sections:
+    - text: ":info informs, :ok confirms, :warning asks the person to act and may hold one small action. One sentence saying what happened and what to do."
+      example: callout
+
+- slug: app_shell
+  title: App shell
+  group: Layout
+  lead: The frame of every screen.
+  helper: "app_shell { |shell| shell.with_banner(text, kind: :test); shell.with_sidebar(brand:) { |s| s.with_item(label, href:, icon:) } }"
+  sections:
+    - text: |
+        Use it once, in the application layout, around `yield`. The banner names any environment that is not the real one (:test yellow, :sandbox violet); real data shows none. Sidebar items mark themselves current with `current_page?` unless you pass `current:`; `with_heading` groups the items after it.
+
+        Give `html` and `body` `height: 100%`. Below 760px wide, collapse or move the sidebar in your layout.
+      example: app_shell
+  slots:
+    - [banner, "EnvBanner: text and kind (:test, :sandbox)"]
+    - [sidebar, "brand, brand_href; with_item, with_heading, with_brand_logo, with_footer"]
+
+- slug: page_header
+  title: Page header
+  group: Layout
+  lead: Title row, filters row and tabs row, the same on every page.
+  helper: "page_header(title:, subtitle: nil) { |h| h.with_action {…}; h.with_filters {…}; h.with_tabs(label:) {…} }"
+  sections:
+    - text: Keep the same structure on every page so titles, actions and filters never move between views. The subtitle is one line of live context (last sync, today's date). Actions go right, secondary first and the primary last. Filters start with the search field; pickers follow at their natural width.
+      example: page_header
+  slots:
+    - [action, "One per action (button, icon_button, popover…), in order"]
+    - [filters, "The filters row: search_input, multi_select, period_picker"]
+    - [tabs, "A tabs component: with_tab(label, href:, count:, selected:) and with_action"]
+
+- slug: card
+  title: Card
+  group: Layout
+  lead: A bordered panel that groups related content on a page.
+  helper: "card(title: nil, subtitle: nil, flush: false) { |c| c.with_action {…}; c.with_footer {…} }"
+  sections:
+    - text: "Use cards to group content on dashboards and detail pages, not around every block. `flush: true` removes the body padding so a table fills the card edge to edge. Trail UI added Card for Componeer; it is built only from existing tokens."
+      example: card
+  slots:
+    - [action, "Items on the right of the header (pills, icon buttons)"]
+    - [footer, "Right-aligned buttons under the body"]
+
+- slug: tabs
+  title: Tabs
+  group: Layout
+  lead: Subsets of the same records, each with its count.
+  helper: "tabs(label:) { |t| t.with_tab(label, href: nil, count: nil, selected: false); t.with_action {…} }"
+  sections:
+    - text: Usually filled through `page_header`'s tabs slot. Tabs with `href:` are links, so each subset has its own URL.
+      example: tabs
+
+- slug: multi_select
+  title: Multi-select
+  group: Pickers
+  lead: Filter by several values of one dimension. Never pills, never a single select.
+  helper: "multi_select(name:, label:, options:, selected: nil, icon: nil, all_label:, none_label:, many_label:, searchable: nil)"
+  sections:
+    - text: |
+        Options are values or hashes (`value`, `label`, optional `sub`, `status` or `color`). It submits `name[]` with the checked values; `selected: nil` means all. The summary on the trigger follows the choice: all, none, the one name, or `many_label` with `%{count}`. Search appears by itself above 8 options.
+
+        It dispatches `componeer--multi-select:change` with the chosen values, so a form can submit itself: `data-action="componeer--multi-select:change->filters#submit"`.
+      example: multi_select
+
+- slug: period_picker
+  title: Period picker
+  group: Pickers
+  lead: A date range from presets or two date fields.
+  helper: "period_picker(from_name: :from, to_name: :to, from: nil, to: nil, presets: [], title: \"Período\")"
+  sections:
+    - text: Presets are hashes with `label`, `from` and `to` (nil for an open end). Picking one fills both fields and closes the panel; editing a date clears the preset. It dispatches `componeer--period-picker:change`.
+      example: period_picker
+
+- slug: popover
+  title: Popover
+  group: Pickers
+  lead: A trigger with a floating panel, for anything the other pickers do not cover.
+  helper: "popover(align: :left) { |p| p.with_trigger { button … } }"
+  sections:
+    - text: "The panel opens under the trigger and closes on Escape or a click outside. Use `align: :right` near the right edge."
+      example: popover
+
+- slug: table
+  title: Table
+  group: Data
+  lead: Dense lists of records, declared column by column.
+  helper: "table(rows:, row_href: nil, current: nil, group_by: nil, empty: \"Nada por aqui.\", min_width: nil) { |t| t.column(header, align:, width:) { |row| … } }"
+  sections:
+    - text: |
+        Each `column` block receives the row and returns the cell. `row_href` makes whole rows clickable (links and buttons inside keep working); `current` marks the row whose detail is open; `group_by` adds group header rows. An empty collection shows `empty` instead of the table.
+
+        Right-align money and quantities. Inside a card, use `card(flush: true)`.
+      example: table
+  options:
+    - [rows, "Any enumerable"]
+    - [row_href, "Lambda row → URL; the row becomes a link"]
+    - [current, "Lambda row → true for the row whose drawer is open"]
+    - [group_by, "Lambda row → group label"]
+    - [min_width, "CSS width that keeps columns readable; the table scrolls inside its box"]
+
+- slug: empty_state
+  title: Empty state
+  group: Data
+  lead: Say what is empty, in the list's own terms.
+  helper: empty_state(text = nil)
+  sections:
+    - example: empty_state
+
+- slug: drawer
+  title: Drawer
+  group: Overlays
+  lead: A record's detail on the right edge, over the list it came from.
+  helper: "drawer(title:, close_href: nil, eyebrow: nil) { |d| d.with_meta {…}; d.with_action {…}; d.with_section(title) {…} }"
+  sections:
+    - text: |
+        Render it into a Turbo Frame next to the list so the list stays usable, and mark the list row `current`. Escape and the close button follow `close_href` (or remove the drawer when there is none).
+      example: drawer
+  slots:
+    - [meta, "Status pill and a context line under the title"]
+    - [action, "Small buttons under the meta"]
+    - [section, "Body sections, each with an optional heading"]
+
+- slug: modal
+  title: Modal
+  group: Overlays
+  lead: A blocking dialog for confirmations and short forms.
+  helper: "modal(title:, subtitle: nil, close_href: nil, width: \"440px\") { |m| m.with_footer {…} }"
+  sections:
+    - text: Footer buttons go "Cancelar" first, the confirming action last; a destructive confirm uses `danger_fill` and repeats the verb from the title.
+      example: modal
+
+- slug: toast
+  title: Toast
+  group: Overlays
+  lead: A short confirmation after an action.
+  helper: "toast(message, variant: :default, dismiss_after: 6000) · toasts(flash: nil)"
+  sections:
+    - text: "`toasts` without a block shows the flash (`notice` as a toast, `alert` as an error toast); put it once in the layout. Toasts leave after `dismiss_after` milliseconds (0 keeps them)."
+      example: toast

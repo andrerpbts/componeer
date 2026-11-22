@@ -1,0 +1,24 @@
+<% missions = [
+  { title: "Revisar roteiro do vídeo 2", quest: "Lançar o canal", late: true },
+  { title: "Emitir invoice de novembro", quest: "Faturar o cliente exemplo", late: false }
+] %>
+<%= stack do %>
+  <%= card(title: "Para hoje", subtitle: "Sexta, 20 de novembro") do |today| %>
+    <% today.with_action { counter missions.size } %>
+    <%= stack(gap: "8px") do %>
+      <% missions.each do |mission| %>
+        <%= cluster(style: "justify-content: space-between") do %>
+          <span><strong><%= mission[:title] %></strong> <span class="tr-muted">· <%= mission[:quest] %></span></span>
+          <%= status_pill "Atrasada há 1 dia", status: :bad if mission[:late] %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <%= card(title: "Quests ativas", flush: true) do %>
+    <%= table(rows: [ { title: "Lançar o canal", progress: "5 de 13" }, { title: "Faturar o cliente exemplo", progress: "Contínua" } ]) do |t| %>
+      <% t.column("Quest") { |quest| quest[:title] } %>
+      <% t.column("Progresso", align: :right) { |quest| quest[:progress] } %>
+    <% end %>
+  <% end %>
+<% end %>

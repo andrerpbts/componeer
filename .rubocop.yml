@@ -1,0 +1,30 @@
+# Omakase Ruby styling for Rails
+inherit_gem: { rubocop-rails-omakase: rubocop.yml }
+
+plugins:
+  - rubocop-rspec
+
+AllCops:
+  NewCops: enable
+  Exclude:
+    - "vendor/**/*"
+    - "spec/dummy/bin/**/*"
+    - "spec/dummy/tmp/**/*"
+
+# Specs describe behaviour in describe/context; examples are one-liners without descriptions.
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
+# Component specs render once in `before` and assert one thing per example.
+RSpec/NestedGroups:
+  Max: 4
+# "Small components" groups several tiny component classes in one file.
+RSpec/DescribeClass:
+  Exclude:
+    - "spec/components/componeer/small_components_spec.rb"
+    - "spec/requests/**/*"
+RSpec/MultipleDescribes:
+  Exclude:
+    - "spec/components/componeer/small_components_spec.rb"
+RSpec/SpecFilePathFormat:
+  Exclude:
+    - "spec/components/componeer/small_components_spec.rb"
