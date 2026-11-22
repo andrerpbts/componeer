@@ -1,6 +1,9 @@
-<p><img src="app/assets/images/componeer/logo-mark.svg" alt="" width="56" height="56"></p>
-
-# Componeer
+<h1>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/logo-dark.png">
+    <img src="docs/logo-light.png" alt="Componeer" width="316" height="80">
+  </picture>
+</h1>
 
 Trail UI components for Rails views, written as helpers that nest.
 
