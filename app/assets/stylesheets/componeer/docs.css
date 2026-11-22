@@ -3,7 +3,7 @@ html, body { height: 100%; margin: 0; }
 .doc-article { padding: 8px 20px 64px; display: flex; flex-direction: column; gap: 8px; }
 .doc-section { display: flex; flex-direction: column; gap: 10px; padding-top: 16px; }
 .doc-section h2 { font-size: 15px; font-weight: 600; }
-.doc-section p { max-width: 68ch; line-height: 1.55; color: var(--ink-2); }
+.doc-section p { line-height: 1.55; color: var(--ink-2); }
 .doc-section p code, .doc-section td code { font-family: var(--font-mono); font-size: 12px; padding: 1px 5px; border-radius: 4px; background: var(--surface-2); }
 .doc-signature { margin-top: 12px; }
 .doc-example { margin: 0; border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; }
