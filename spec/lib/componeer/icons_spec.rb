@@ -2,13 +2,25 @@ require "rails_helper"
 
 RSpec.describe Componeer::Icons do
   describe ".svg_body" do
+    let(:missing) { described_class::Missing }
+
     it { expect(described_class.svg_body("search")).to include('<path d="M21 21l-6 -6"') }
     it { expect(described_class.svg_body("search")).not_to include("M0 0h24v24H0z") }
     it { expect(described_class.svg_body(:alert_triangle)).to include("<path") }
-    it { expect { described_class.svg_body("nope-not-an-icon") }.to raise_error(described_class::Missing) }
-    it { expect { described_class.svg_body("../secrets") }.to raise_error(described_class::Missing) }
+
+    it do
+      expect { described_class.svg_body("nope-not-an-icon") }.to raise_error(missing)
+    end
+
+    it do
+      expect { described_class.svg_body("../secrets") }.to raise_error(missing)
+    end
+
     it { expect(described_class.svg_body("star", variant: :filled)).to include("<path") }
-    it { expect { described_class.svg_body("search", variant: :bold) }.to raise_error(described_class::Missing) }
+
+    it do
+      expect { described_class.svg_body("search", variant: :bold) }.to raise_error(missing)
+    end
   end
 
   describe ".names" do

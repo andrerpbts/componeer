@@ -1,0 +1,9 @@
+<%= tag.label(**html_attributes("tr-field", @html)) do %>
+  <%= @label %>
+  <%= content %>
+  <% if @error %>
+    <span class="tr-hint" style="color: var(--bad-text)"><%= @error %></span>
+  <% elsif @hint %>
+    <span class="tr-hint"><%= @hint %></span>
+  <% end %>
+<% end %>

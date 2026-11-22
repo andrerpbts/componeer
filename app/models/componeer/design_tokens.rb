@@ -12,17 +12,28 @@ module Componeer
       end
     end
 
-    FAMILIES = { "color" => "Colours", "spacing" => "Spacing", "radius" => "Radii", "shadow" => "Shadows", "size" => "Sizes" }.freeze
+    FAMILIES = {
+      "color" => "Colours", "spacing" => "Spacing", "radius" => "Radii",
+      "shadow" => "Shadows", "size" => "Sizes"
+    }.freeze
 
     def self.grouped
       data = JSON.parse(Engine.root.join("config/tokens.json").read)
+
       FAMILIES.to_h do |family, label|
-        tokens = data.fetch(family, {}).fetch("tokens", []).map do |token|
-          value = token["value"].is_a?(Hash) ? token["value"].values.first : token["value"]
-          Token.new(name: token["name"], value: value.to_s.gsub(/\{([^}]+)\}/, 'var(--\1)'), usage: token["usage"], family:)
-        end
+        tokens = data.fetch(family, {}).fetch("tokens", []).map { |token| build(token, family) }
         [ label, tokens ]
       end
     end
+
+    # Colours may vary by theme ({ "light": … }); the docs show the first. Aliases ({name})
+    # become the CSS they compile to.
+    def self.build(token, family)
+      value = token["value"].is_a?(Hash) ? token["value"].values.first : token["value"]
+      css_value = value.to_s.gsub(/\{([^}]+)\}/, 'var(--\1)')
+
+      Token.new(name: token["name"], value: css_value, usage: token["usage"], family:)
+    end
+    private_class_method :build
   end
 end

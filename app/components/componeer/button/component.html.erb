@@ -1,0 +1,5 @@
+<% if @href %>
+  <%= link_to @href, **attributes do %><%= icon_svg(@icon) if @icon %><%= content || @label %><% end %>
+<% else %>
+  <%= tag.button type: @type, **attributes do %><%= icon_svg(@icon) if @icon %><%= content || @label %><% end %>
+<% end %>

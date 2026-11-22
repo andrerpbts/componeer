@@ -28,15 +28,30 @@ module Componeer
       end
     end
 
-    def initialize(slug:, title:, group:, lead: nil, helper: nil, sections: [], options: [], slots: [])
-      @slug, @title, @group, @lead, @helper = slug, title, group, lead, helper
-      @sections = sections.map { |s| Section.new(heading: s["heading"], text: s["text"], code: s["code"], language: s["language"] || "erb", example: s["example"], gallery: s["gallery"], screen: s["screen"]) }
+    def initialize(slug:, title:, group:, lead: nil, helper: nil, sections: [], options: [],
+      slots: [])
+      @slug = slug
+      @title = title
+      @group = group
+      @lead = lead
+      @helper = helper
+      @sections = sections.map { |section| build_section(section) }
       @options = options.map { |name, description| Option.new(name:, description:) }
       @slots = slots.map { |name, description| Option.new(name:, description:) }
     end
 
     def to_param
       slug
+    end
+
+    private
+
+    def build_section(section)
+      Section.new(
+        heading: section["heading"], text: section["text"], code: section["code"],
+        language: section["language"] || "erb", example: section["example"],
+        gallery: section["gallery"], screen: section["screen"]
+      )
     end
   end
 end

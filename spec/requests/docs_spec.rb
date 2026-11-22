@@ -35,7 +35,9 @@ RSpec.describe "Docs" do
   describe "GET /componeer/icon" do
     before { get "/componeer/icon" }
 
-    it { expect(response.body.scan('class="doc-icon"').size).to eq(Componeer::IconGallery.new.names.size) }
+    it do
+      expect(response.body.scan('class="doc-icon"').size).to eq(Componeer::IconGallery.new.names.size)
+    end
   end
 
   describe "GET /componeer/icon?q=arrow&letter=c" do
@@ -48,7 +50,9 @@ RSpec.describe "Docs" do
   describe "GET /componeer/icon?q=calendar&variant=filled" do
     before { get "/componeer/icon", params: { q: "calendar", variant: "filled" } }
 
-    it { expect(response.body).to include('data-code="icon &quot;calendar&quot;, variant: :filled"') }
+    it do
+      expect(response.body).to include('data-code="icon &quot;calendar&quot;, variant: :filled"')
+    end
   end
 
   describe "GET /componeer/missing" do

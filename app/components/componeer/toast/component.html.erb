@@ -1,0 +1,5 @@
+<%= tag.div(**attributes) do %>
+  <span><%= content || @message %></span>
+  <%= action %>
+  <%= render Componeer::IconButton::Component.new("x", label: "Fechar", data: { action: "componeer--dismissable#dismiss" }) %>
+<% end %>

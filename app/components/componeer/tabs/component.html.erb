@@ -1,0 +1,4 @@
+<%= tag.div(**html_attributes("tr-tabs-row", @html, data: { controller: "componeer--tabs" })) do %>
+  <div class="tr-tabs" role="tablist" aria-label="<%= @label %>"><% tabs.each do |tab| %><%= tab %><% end %></div>
+  <% actions.each do |action| %><%= action %><% end %>
+<% end %>

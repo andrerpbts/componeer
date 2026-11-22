@@ -1,0 +1,6 @@
+<% if available? %>
+  <%= link_to icon_svg(@icon), @url.call(@page), class: "tr-btn tr-btn--sm tr-btn--icon",
+        aria: { label: @label }, rel: @rel %>
+<% else %>
+  <span class="tr-btn tr-btn--sm tr-btn--icon" aria-disabled="true" aria-label="<%= @label %>"><%= icon_svg(@icon) %></span>
+<% end %>

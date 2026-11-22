@@ -38,7 +38,12 @@
   </p>
 
   <% if gallery.names.any? %>
-    <%= icon_gallery_grid(gallery.names, variant: gallery.variant) %>
+    <div class="doc-icon-grid">
+      <% gallery.names.each do |name| %>
+        <button type="button" class="doc-icon" title="<%= name %>" data-code="<%= icon_code(name, gallery.variant) %>"
+          data-action="docs-icons#copy"><%= icon name, size: 32, variant: gallery.variant %><span><%= name %></span></button>
+      <% end %>
+    </div>
     <%= pagination page: gallery.page, pages: gallery.pages, url: ->(page) { gallery_url.(page: page) }, label: "Páginas de ícones" %>
   <% else %>
     <%= empty_state "Nenhum ícone encontrado", icon: "search",

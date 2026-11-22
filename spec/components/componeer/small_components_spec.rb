@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe "Small components", type: :component do
-  describe Componeer::IconComponent do
+  describe Componeer::Icon::Component do
     context "when decorative" do
       before { render_inline(described_class.new("search", size: 20)) }
 
@@ -21,28 +21,33 @@ RSpec.describe "Small components", type: :component do
     end
   end
 
-  describe Componeer::StatusDotComponent do
+  describe Componeer::StatusDot::Component do
     before { render_inline(described_class.new(color: "#0d9488", style: "margin-right: 7px")) }
 
-    it { expect(page).to have_css(".tr-dot[style='background: #0d9488; margin-right: 7px']", visible: :all) }
+    it do
+      expect(page).to have_css(".tr-dot[style='background: #0d9488; margin-right: 7px']",
+        visible: :all)
+    end
   end
 
-  describe Componeer::StatusPillComponent do
+  describe Componeer::StatusPill::Component do
     before { render_inline(described_class.new("Cancelada", status: :bad)) }
 
     it { expect(page).to have_css(".tr-pill.tr-pill--bad .tr-dot.tr-dot--bad") }
   end
 
-  describe Componeer::CalloutComponent do
+  describe Componeer::Callout::Component do
     before { render_inline(described_class.new("Vence em 30 dias.", variant: :warning)) }
 
     it { expect(page).to have_css(".tr-help[role=alert]", text: "Vence em 30 dias.") }
   end
 
-  describe Componeer::EmptyStateComponent do
+  describe Componeer::EmptyState::Component do
     context "with icon, description and an action" do
       before do
-        render_inline(described_class.new("Nenhuma nota", description: "Mude o período.", icon: "file-search", bordered: true)) do |empty|
+        empty_state = described_class.new("Nenhuma nota",
+          description: "Mude o período.", icon: "file-search", bordered: true)
+        render_inline(empty_state) do |empty|
           empty.with_action { "Limpar filtros" }
         end
       end
@@ -57,18 +62,25 @@ RSpec.describe "Small components", type: :component do
     context "when small with only a title" do
       before { render_inline(described_class.new("Nada agendado", size: :sm)) }
 
-      it { expect(page).to have_css(".tr-empty-state--sm .tr-empty-state__title", text: "Nada agendado") }
+      it do
+        expect(page).to have_css(".tr-empty-state--sm .tr-empty-state__title",
+          text: "Nada agendado")
+      end
+
       it { expect(page).to have_no_css(".tr-empty-state__icon") }
     end
   end
 
-  describe Componeer::ToggleSwitchComponent do
+  describe Componeer::ToggleSwitch::Component do
     before { render_inline(described_class.new("auto_sync", label: "Sincronizar", checked: true)) }
 
-    it { expect(page).to have_css("label.tr-switch-field input[type=checkbox][role=switch][checked]", visible: :all) }
+    it do
+      expect(page).to have_css("label.tr-switch-field input[type=checkbox][role=switch][checked]",
+        visible: :all)
+    end
   end
 
-  describe Componeer::SegmentedComponent do
+  describe Componeer::Segmented::Component do
     before do
       render_inline(described_class.new(label: "Visão")) do |views|
         views.with_item("Dia", href: "/dia", pressed: true)
@@ -77,10 +89,15 @@ RSpec.describe "Small components", type: :component do
     end
 
     it { expect(page).to have_css(".tr-segmented[role=group] a[aria-current=page]", text: "Dia") }
-    it { expect(page).to have_css(".tr-segmented[data-controller='componeer--segmented'] button[aria-pressed=false][value=Mês][data-action='componeer--segmented#select']", text: "Mês") }
+
+    it do
+      expect(page).to have_css(".tr-segmented[data-controller='componeer--segmented'] " \
+        "button[aria-pressed=false][value=Mês][data-action='componeer--segmented#select']",
+        text: "Mês")
+    end
   end
 
-  describe Componeer::AppShellComponent do
+  describe Componeer::AppShell::Component do
     before do
       with_request_url("/componeer/button") do
         render_inline(described_class.new) do |shell|
@@ -101,7 +118,7 @@ RSpec.describe "Small components", type: :component do
     it { expect(page).to have_css("main.tr-main", text: "Página") }
   end
 
-  describe Componeer::DrawerComponent do
+  describe Componeer::Drawer::Component do
     before do
       render_inline(described_class.new(title: "Nota 1235", close_href: "/notas")) do |drawer|
         drawer.with_section("Tomador") { "Empresa Exemplo" }
@@ -113,8 +130,10 @@ RSpec.describe "Small components", type: :component do
     it { expect(page).to have_css(".tr-drawer__section h2", text: "Tomador") }
   end
 
-  describe Componeer::ToastsComponent do
-    before { render_inline(described_class.new(flash: { "notice" => "Salvo.", "alert" => "Falhou." })) }
+  describe Componeer::Toasts::Component do
+    before do
+      render_inline(described_class.new(flash: { "notice" => "Salvo.", "alert" => "Falhou." }))
+    end
 
     it { expect(page).to have_css(".tr-toast[role=status]", text: "Salvo.") }
     it { expect(page).to have_css(".tr-toast.tr-toast--error[role=alert]", text: "Falhou.") }

@@ -1,0 +1,5 @@
+<% if @href %>
+  <%= link_to @label, @href, **link_attributes %>
+<% else %>
+  <%= tag.button(@label, **button_attributes) %>
+<% end %>

@@ -27,7 +27,11 @@ RSpec.describe Componeer::IconGallery do
 
     it { expect(gallery.matches).to all(start_with("c").and(include("arrow"))) }
     it { expect(gallery.letters.fetch("z")).to eq(0) }
-    it { expect(gallery.params_with(page: 2)).to eq(variant: :outline, q: "arrow", letter: "c", page: 2) }
+
+    it do
+      expect(gallery.params_with(page: 2))
+        .to eq(variant: :outline, q: "arrow", letter: "c", page: 2)
+    end
   end
 
   describe "paging" do

@@ -1,0 +1,11 @@
+<%= tag.div(**attributes) do %>
+  <% if @icon %>
+    <span class="tr-empty-state__icon"><%= render Componeer::Icon::Component.new(@icon, size: icon_size) %></span>
+  <% end %>
+  <% if @title %><p class="tr-empty-state__title"><%= @title %></p><% end %>
+  <% if @description %><p class="tr-empty-state__text"><%= @description %></p><% end %>
+  <%= content %>
+  <% if actions? %>
+    <div class="tr-empty-state__actions"><% actions.each do |action| %><%= action %><% end %></div>
+  <% end %>
+<% end %>

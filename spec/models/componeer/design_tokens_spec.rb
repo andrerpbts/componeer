@@ -10,5 +10,10 @@ RSpec.describe Componeer::DesignTokens do
   it { expect(accent.value).to eq("#0b5c8a") }
   it { expect(accent.css_variable).to eq("--accent") }
   it { expect(toast.value).to eq("var(--ink)") }
-  it { expect(grouped["Colours"].map(&:css_variable)).to all(satisfy { |variable| Rails.root.join("../../app/assets/stylesheets/componeer/tokens.css").read.include?("#{variable}:") }) }
+
+  it do
+    tokens_css = Componeer::Engine.root.join("app/assets/stylesheets/componeer/tokens.css").read
+    expect(grouped["Colours"].map(&:css_variable))
+      .to all(satisfy { |variable| tokens_css.include?("#{variable}:") })
+  end
 end

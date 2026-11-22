@@ -1,0 +1,11 @@
+<%= tag.figure(**html_attributes("tr-code", @html, data: { controller: "componeer--clipboard" })) do %>
+  <figcaption class="tr-code__bar">
+    <span class="tr-code__title"><%= title %></span>
+    <% if @copy %>
+      <button type="button" class="tr-btn tr-btn--sm tr-btn--ghost" data-action="componeer--clipboard#copy">
+        <%= icon_svg("copy", size: 14) %><span data-componeer--clipboard-target="label">Copiar</span>
+      </button>
+    <% end %>
+  </figcaption>
+  <pre class="tr-code__pre"><code data-componeer--clipboard-target="source"><%= highlighted %></code></pre>
+<% end %>

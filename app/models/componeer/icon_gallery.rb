@@ -22,7 +22,8 @@ module Componeer
     def letters
       @letters ||= begin
         counts = found.group_by { |name| letter_of(name) }.transform_values(&:size)
-        all.map { |name| letter_of(name) }.uniq.sort_by { |letter| letter == DIGITS ? "~" : letter }.index_with { |letter| counts.fetch(letter, 0) }
+        all_letters = all.map { |name| letter_of(name) }.uniq.sort_by { |l| l == DIGITS ? "~" : l }
+        all_letters.index_with { |letter| counts.fetch(letter, 0) }
       end
     end
 
@@ -59,16 +60,16 @@ module Componeer
     end
 
     private
-      def all
-        Icons.names(variant: variant)
-      end
+    def all
+      Icons.names(variant: variant)
+    end
 
-      def found
-        @found ||= searching? ? all.select { |name| name.include?(query) } : all
-      end
+    def found
+      @found ||= searching? ? all.select { |name| name.include?(query) } : all
+    end
 
-      def letter_of(name)
-        name.match?(/\A[a-z]/) ? name[0] : DIGITS
-      end
+    def letter_of(name)
+      name.match?(/\A[a-z]/) ? name[0] : DIGITS
+    end
   end
 end

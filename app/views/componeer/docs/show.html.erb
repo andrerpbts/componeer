@@ -6,9 +6,14 @@
   <% @page.sections.each do |section| %>
     <section class="doc-section">
       <% if section.heading %><h2><%= section.heading %></h2><% end %>
-      <%= doc_text(section.text) if section.text %>
+      <%= render "componeer/docs/text", text: section.text if section.text %>
       <%= code_block section.code, language: section.language if section.code %>
-      <%= doc_example(section.example) if section.example %>
+      <% if section.example %>
+        <%= render layout: "componeer/docs/example",
+              locals: { id: "example-#{section.example.dasherize}", source: example_source(section.example) } do %>
+          <div class="doc-example__preview tr-root"><%= render "componeer/docs/examples/#{section.example}" %></div>
+        <% end %>
+      <% end %>
       <%= render "componeer/docs/icon_gallery" if section.gallery == "icons" %>
       <%= render "componeer/docs/token_table" if section.gallery == "tokens" %>
       <% if section.screen %>
@@ -16,9 +21,11 @@
           <%= cluster do %>
             <%= button "Abrir em tela cheia", href: componeer.screen_path(section.screen), icon: "external-link", target: "_blank" %>
           <% end %>
-          <%= doc_tabs "screen-#{section.screen.dasherize}",
-                preview: tag.iframe(src: componeer.screen_path(section.screen), title: section.heading || @page.title, loading: "lazy", class: "doc-screen__frame"),
-                source: screen_source(section.screen) %>
+          <%= render layout: "componeer/docs/example",
+                locals: { id: "screen-#{section.screen.dasherize}", source: screen_source(section.screen) } do %>
+            <iframe class="doc-screen__frame" src="<%= componeer.screen_path(section.screen) %>"
+              title="<%= section.heading || @page.title %>" loading="lazy"></iframe>
+          <% end %>
         </div>
       <% end %>
     </section>

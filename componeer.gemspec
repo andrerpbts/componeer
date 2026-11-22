@@ -7,8 +7,8 @@ Gem::Specification.new do |spec|
   spec.homepage    = "https://github.com/andrerpbts/componeer"
   spec.summary     = "Trail UI components for Rails views, written as nestable helpers."
   spec.description = "Componeer renders the Trail UI design system in Rails with ViewComponent. " \
-                     "Every component is a view helper (card, button, page_header, table…) that takes a block, " \
-                     "so screens are built by nesting components."
+                     "Every component is a view helper (card, button, page_header, table…) " \
+                     "that takes a block, so screens are built by nesting components."
   spec.license     = "MIT"
   spec.required_ruby_version = ">= 3.3"
 

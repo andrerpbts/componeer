@@ -1,0 +1,9 @@
+<%= tag.div(**html_attributes("tr-toasts", @html, id: "toasts")) do %>
+  <% if content? %>
+    <%= content %>
+  <% else %>
+    <% flash_messages.each do |message, variant| %>
+      <%= render Componeer::Toast::Component.new(message, variant: variant) %>
+    <% end %>
+  <% end %>
+<% end %>

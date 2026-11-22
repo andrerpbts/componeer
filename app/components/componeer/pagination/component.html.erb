@@ -1,0 +1,12 @@
+<%= tag.nav(**html_attributes("tr-pagination", @html, aria: { label: @label })) do %>
+  <%= render previous_step %>
+  <% numbers.each do |page| %>
+    <% if page == :gap %>
+      <span class="tr-pagination__gap" aria-hidden="true">…</span>
+    <% else %>
+      <%= link_to page, @url.call(page), class: "tr-btn tr-btn--sm",
+            aria: { current: ("page" if page == @page), label: "Página #{page}" } %>
+    <% end %>
+  <% end %>
+  <%= render next_step %>
+<% end %>

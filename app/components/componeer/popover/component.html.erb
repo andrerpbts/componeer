@@ -1,0 +1,4 @@
+<%= tag.div(**html_attributes("tr-popover", @html, data: { controller: "componeer--popover" })) do %>
+  <span style="display: contents" data-action="click->componeer--popover#toggle" data-componeer--popover-target="trigger"><%= trigger %></span>
+  <div class="<%= panel_classes %>" hidden data-componeer--popover-target="panel"><%= content %></div>
+<% end %>

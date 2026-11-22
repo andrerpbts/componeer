@@ -66,10 +66,18 @@ add others (Tailwind, Node build tooling, React…) without the owner's approval
   View helper (`select`, `label`, `search_field`…) are refused.
 - `lib/componeer/builtins.rb` – the list of built-in helpers. Keep it in sync with the components.
 - `lib/componeer/icons.rb` – icon lookup (configured `icon_paths` first, then Tabler).
-- `app/components/componeer/*_component.rb` (+ `.html.erb` when the markup is more than a line or two)
-  – all inherit `Componeer::Component` (`html_attributes`, `icon_svg`).
-- `app/javascript/componeer` – `index.js` (`registerComponeer(application)`) and controllers named
-  `componeer--<name>`.
+- `app/components/componeer/<name>/` – one folder per component:
+  - `component.rb` defines `Componeer::<Name>::Component < Componeer::BaseComponent` (data and
+    logic only: arguments, option checks, attribute hashes, small queries);
+  - `component.html.erb` holds **all** its markup;
+  - sub-components that render a slot (`tabs/tab.rb`, `segmented/item.rb`, `drawer/section.rb`,
+    `sidebar/heading.rb`, `pagination/step.rb`) live in the same folder, each with its template.
+- `app/components/componeer/base_component.rb` – `html_attributes` (merges caller classes, styles,
+  data, aria), `icon_svg`, `option!` (validates enum-like options).
+- `app/javascript/componeer` – `index.js` (`registerComponeer(application)`) and one Stimulus
+  controller per behaviour, named `componeer--<name>` (`controllers/<name>_controller.js`). JS stays
+  out of `app/components`: serving it from there would put that folder in the asset load path, and
+  `assets:precompile` would then copy every `.rb` and `.erb` into the host app's `public/assets`.
 - Documentation app (mounted at `/componeer`): `config/docs.yml` (pages), 
   `app/views/componeer/docs/examples/_<name>.html.erb` (live examples, shown with their source),
   `app/controllers/componeer/docs_controller.rb`, `app/models/componeer/doc_page.rb`.
@@ -80,8 +88,8 @@ add others (Tailwind, Node build tooling, React…) without the owner's approval
 ## 5. Adding or changing a component
 
 1. Check the Trail UI artifact; add or update the component there first if needed (section 2).
-2. Write the component in `app/components/componeer/`, inheriting `Componeer::Component`. Accept
-   `**html` and merge it with `html_attributes` so callers can add classes, data and aria.
+2. Create `app/components/componeer/<name>/component.rb` and `component.html.erb` (section 4).
+   Accept `**html` and merge it with `html_attributes` so callers can add classes, data and aria.
 3. Register its helper in `lib/componeer/builtins.rb`.
 4. Document it: an entry in `config/docs.yml` (lead, helper signature, options/slots) and at least
    one example partial. Examples use obviously fake data (Empresa Exemplo, Fictícia Serviços ME).
@@ -95,8 +103,18 @@ add others (Tailwind, Node build tooling, React…) without the owner's approval
 - Comments only for the *why* the code can't say. No commented-out code.
 - Accessibility is part of the component: real `<button>`/`<a>`, `aria-label` on icon-only
   controls, `aria-current`/`aria-selected`/`aria-pressed` for state, decorative icons hidden.
+- Markup belongs in templates. A component's Ruby class never builds HTML (`tag.div`, `content_tag`…);
+  it exposes data and attribute hashes the template uses. Same for helpers: markup goes in partials.
+- In templates, refer to other components by their full name (`Componeer::Icon::Component`):
+  templates are compiled outside the `module Componeer` nesting, so short names do not resolve.
+- Lines are at most 100 characters (RuboCop `Layout/LineLength`). Break long calls by argument,
+  prefer one assignment per line over `@a, @b = a, b`.
+- Private methods sit at the same indentation as `private` (RuboCop
+  `Layout/IndentationConsistency: normal`), not indented under it.
 - Spec style: `describe`/`context` carry the description; examples have **no description** and
-  **one expectation each** (`it { expect(page).to have_css(...) }`), setup in `before`/`let`.
+  **one expectation each** (`it { expect(page).to have_css(...) }`), setup in `before`/`let`. When
+  a one-liner would pass 100 characters, use `it do … end` with the same single expectation.
+- Specs mirror the component folders: `spec/components/componeer/<name>/component_spec.rb`.
 - Never put real names, emails, tax IDs or amounts anywhere in this repository.
 
 ## 7. Workflow

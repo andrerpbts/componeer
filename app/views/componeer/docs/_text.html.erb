@@ -1,0 +1,3 @@
+<% doc_paragraphs(text).each do |parts| %>
+  <p><% parts.each do |part, code| %><% if code %><code><%= part %></code><% else %><%= part %><% end %><% end %></p>
+<% end %>

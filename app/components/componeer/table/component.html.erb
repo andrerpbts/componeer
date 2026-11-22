@@ -1,0 +1,34 @@
+<%= tag.div(**html_attributes(nil, @html, style: "overflow-x: auto")) do %>
+  <table class="tr-table" <% if @min_width %>style="min-width: <%= @min_width %>"<% end %>>
+    <thead>
+      <tr><% @columns.each do |column| %><th scope="col" style="<%= cell_style(column) %>"><%= column.header %></th><% end %></tr>
+    </thead>
+    <% if @rows.empty? %>
+      <tbody>
+        <tr class="tr-table__empty"><td colspan="<%= [ @columns.size, 1 ].max %>"><%= empty_content %></td></tr>
+      </tbody>
+    <% end %>
+    <% groups.each do |label, rows| %>
+      <%= tag.tbody(**group_attributes(label)) do %>
+        <% if label %>
+          <tr class="tr-table__group">
+            <td colspan="<%= @columns.size %>">
+              <% if @collapsible %>
+                <button type="button" class="tr-table__toggle" aria-expanded="<%= !collapsed?(label) %>" data-action="componeer--table-group#toggle">
+                  <%= icon_svg("chevron-down") %><strong><%= label %></strong> · <%= rows.size %>
+                </button>
+              <% else %>
+                <strong><%= label %></strong> · <%= rows.size %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+        <% rows.each do |row| %>
+          <%= tag.tr(**row_attributes(row)) do %>
+            <% @columns.each do |column| %><td style="<%= cell_style(column) %>"><%= cell(column, row) %></td><% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </table>
+<% end %>

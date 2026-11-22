@@ -67,13 +67,13 @@
   lead: Register an app component and it becomes a helper too.
   sections:
     - text: |
-        Build app-specific blocks the same way: a ViewComponent (subclassing `Componeer::Component` gives you `html_attributes` and `icon_svg`) whose template uses Componeer helpers. Register it in an initializer and call it like any built-in.
+        Build app-specific blocks the same way: a ViewComponent (subclassing `Componeer::BaseComponent` gives you `html_attributes`, `icon_svg` and `option!`) whose template uses Componeer helpers. Keep the markup in the template and the logic in the class. Register it in an initializer and call it like any built-in.
 
         A name that would override an Action View helper (`select`, `label`, `search_field`…) is refused at boot.
       language: ruby
       code: |
         # app/components/quest_card_component.rb
-        class QuestCardComponent < Componeer::Component
+        class QuestCardComponent < Componeer::BaseComponent
           def initialize(quest:)
             @quest = quest
           end

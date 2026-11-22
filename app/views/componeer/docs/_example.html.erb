@@ -1,0 +1,10 @@
+<figure class="doc-example">
+  <%= tabs(label: "Example", class: "doc-example__tabs") do |t| %>
+    <% t.with_tab "Preview", selected: true, panel: "#{id}-preview" %>
+    <% t.with_tab "Source", panel: "#{id}-source" %>
+  <% end %>
+  <%= tab_panel(id: "#{id}-preview", selected: true) do %><%= yield %><% end %>
+  <%= tab_panel(id: "#{id}-source", class: "doc-example__source") do %>
+    <%= code_block source, language: :erb, title: "ERB" %>
+  <% end %>
+</figure>

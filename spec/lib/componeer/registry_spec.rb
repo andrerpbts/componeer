@@ -5,18 +5,24 @@ RSpec.describe Componeer::Registry do
 
   describe "#register" do
     context "with a free name" do
-      before { registry.register(:demo_box, "Componeer::CardComponent") }
+      before { registry.register(:demo_box, "Componeer::Card::Component") }
 
-      it { expect(registry.fetch(:demo_box)).to eq(Componeer::CardComponent) }
+      it { expect(registry.fetch(:demo_box)).to eq(Componeer::Card::Component) }
       it { expect(Componeer::Helpers.method_defined?(:demo_box)).to be(true) }
     end
 
     context "with an Action View helper name" do
-      it { expect { registry.register(:select, "Componeer::CardComponent") }.to raise_error(described_class::NameTaken) }
+      it do
+        expect { registry.register(:select, "Componeer::Card::Component") }
+          .to raise_error(described_class::NameTaken)
+      end
     end
   end
 
   describe "built-in helpers" do
-    it { expect(Componeer.registry.names).to include(:card, :button, :page_header, :table, :multi_select) }
+    it do
+      expect(Componeer.registry.names)
+        .to include(:card, :button, :page_header, :table, :multi_select)
+    end
   end
 end

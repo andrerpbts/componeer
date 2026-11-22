@@ -1,0 +1,5 @@
+<%= tag.div(**attributes) do %>
+  <%= icon_svg(@icon) if @icon %>
+  <span style="flex: 1"><%= content || @text %></span>
+  <%= action %>
+<% end %>

@@ -28,3 +28,15 @@ RSpec/MultipleDescribes:
 RSpec/SpecFilePathFormat:
   Exclude:
     - "spec/components/componeer/small_components_spec.rb"
+
+Layout/LineLength:
+  Enabled: true
+  Max: 100
+  Exclude:
+    # Rails-generated files of the test app: kept as the generator wrote them.
+    - "spec/dummy/**/*"
+
+# Private methods sit at the same indentation as the `private` keyword (owner's preference over
+# omakase's indented_internal_methods).
+Layout/IndentationConsistency:
+  EnforcedStyle: normal

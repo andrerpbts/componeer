@@ -23,7 +23,8 @@ module Componeer
       # Names of the bundled Tabler icons, sorted.
       def names(variant: :outline)
         @names ||= {}
-        @names[variant.to_sym] ||= Dir[File.join(TABLER_PATH, variant.to_s, "*.svg")].map { |path| File.basename(path, ".svg") }.sort
+        @names[variant.to_sym] ||= Dir[File.join(TABLER_PATH, variant.to_s, "*.svg")]
+          .map { |path| File.basename(path, ".svg") }.sort
       end
 
       def reset!
@@ -31,28 +32,28 @@ module Componeer
       end
 
       private
-        def cache
-          @cache ||= {}
-        end
+      def cache
+        @cache ||= {}
+      end
 
-        def normalize(name)
-          name.to_s.tr("_", "-").tap do |normalized|
-            raise Missing, "invalid icon name #{name.inspect}" unless normalized.match?(NAME)
-          end
+      def normalize(name)
+        name.to_s.tr("_", "-").tap do |normalized|
+          raise Missing, "invalid icon name #{name.inspect}" unless normalized.match?(NAME)
         end
+      end
 
-        def read(name, variant)
-          path = find(name, variant) or raise Missing, "no #{variant} icon named #{name.inspect}"
-          File.read(path)[%r{<svg[^>]*>(.*)</svg>}m, 1]
-            .gsub(%r{<path stroke="none" d="M0 0h24v24H0z" fill="none"\s*/>}, "")
-            .strip
-        end
+      def read(name, variant)
+        path = find(name, variant) or raise Missing, "no #{variant} icon named #{name.inspect}"
+        File.read(path)[%r{<svg[^>]*>(.*)</svg>}m, 1]
+          .gsub(%r{<path stroke="none" d="M0 0h24v24H0z" fill="none"\s*/>}, "")
+          .strip
+      end
 
-        def find(name, variant)
-          (Componeer.config.icon_paths.map(&:to_s) + [ File.join(TABLER_PATH, variant.to_s) ])
-            .map { |dir| File.join(dir, "#{name}.svg") }
-            .find { |path| File.file?(path) }
-        end
+      def find(name, variant)
+        (Componeer.config.icon_paths.map(&:to_s) + [ File.join(TABLER_PATH, variant.to_s) ])
+          .map { |dir| File.join(dir, "#{name}.svg") }
+          .find { |path| File.file?(path) }
+      end
     end
   end
 end

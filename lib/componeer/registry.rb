@@ -27,9 +27,9 @@ module Componeer
     end
 
     private
-      def reserved?(name)
-        !include?(name) && ActionView::Base.method_defined?(name) &&
-          ActionView::Base.instance_method(name).owner != Helpers
-      end
+    def reserved?(name)
+      !include?(name) && ActionView::Base.method_defined?(name) &&
+        ActionView::Base.instance_method(name).owner != Helpers
+    end
   end
 end

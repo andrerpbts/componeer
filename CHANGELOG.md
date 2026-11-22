@@ -21,3 +21,6 @@
 - Docs: more table and empty state examples; helper signatures shown one argument per line.
 - Tables: collapsible groups (`collapsible: true`, `collapsed: [...]`); empty tables keep their header.
 - Fields: read-only and disabled styles; search inputs are white.
+- Internals: one folder per component (`<name>/component.rb` + `component.html.erb`, classes
+  `Componeer::<Name>::Component`); all markup lives in templates; `Componeer::BaseComponent`
+  replaces `Componeer::Component`; 100-character lines.

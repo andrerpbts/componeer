@@ -1,0 +1,5 @@
+<% if @href %>
+  <%= link_to @href, **attributes do %><%= @label %><%= render Componeer::Counter::Component.new(@count) if @count %><% end %>
+<% else %>
+  <%= tag.button(**button_attributes) do %><%= @label %><%= render Componeer::Counter::Component.new(@count) if @count %><% end %>
+<% end %>
