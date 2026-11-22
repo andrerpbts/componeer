@@ -1,0 +1,12 @@
+<% missions = [
+  { title: "Revisar roteiro do vídeo 2", project: "Canal Exemplo", due_on: "20/11/2026" },
+  { title: "Editar vídeo 2", project: "Canal Exemplo", due_on: "21/11/2026" },
+  { title: "Publicar vídeo 2", project: "Canal Exemplo", due_on: "27/11/2026" },
+  { title: "Follow-up com a Demo Consultoria", project: "Produto Exemplo", due_on: "24/11/2026" },
+  { title: "Publicar landing do emissor", project: "Produto Exemplo", due_on: "23/11/2026" },
+  { title: "Emitir invoice de novembro", project: "Cliente Fictício", due_on: "20/11/2026" }
+] %>
+<%= table(rows: missions, group_by: ->(m) { m[:project] }, collapsible: true, collapsed: [ "Cliente Fictício" ]) do |t| %>
+  <% t.column("Missão") { |m| m[:title] } %>
+  <% t.column("Data", align: :right) { |m| m[:due_on] } %>
+<% end %>

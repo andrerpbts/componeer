@@ -19,3 +19,5 @@
 - `empty_state` redone: icon, title, description, actions, small and bordered variants;
   tables take `t.empty { … }` for a full empty state.
 - Docs: more table and empty state examples; helper signatures shown one argument per line.
+- Tables: collapsible groups (`collapsible: true`, `collapsed: [...]`); empty tables keep their header.
+- Fields: read-only and disabled styles; search inputs are white.

@@ -457,6 +457,8 @@
       row_href: nil,   # ->(row) { url }
       current: nil,    # ->(row) { true for the open row }
       group_by: nil,   # ->(row) { group label }
+      collapsible: false,
+      collapsed: [],   # group labels that start folded
       empty: "Nada por aqui.",
       min_width: nil
     ) do |t|
@@ -470,6 +472,9 @@
     - heading: Grouped, clickable, current row
       text: "`group_by` adds a header row per group with its count. `row_href` makes whole rows clickable without stealing clicks from links, buttons and checkboxes inside them. `current` marks the row whose drawer is open. `min_width` keeps columns readable: the table scrolls sideways inside its box."
       example: table_grouped
+    - heading: Collapsible groups
+      text: "With `collapsible: true` each group header becomes a button that folds its rows away (the chevron turns). `collapsed:` lists the groups that start folded. Each group is its own `<tbody>`, so folding works without moving rows around."
+      example: table_collapsible
     - heading: Selection, status and row actions
       text: A column header can be any markup, like a select-all checkbox. Put row actions in a narrow right-aligned last column as icon buttons with labels that name the record.
       example: table_actions
@@ -484,6 +489,8 @@
     - [row_href, "Lambda row → URL; the row becomes a link"]
     - [current, "Lambda row → true for the row whose drawer is open"]
     - [group_by, "Lambda row → group label"]
+    - [collapsible, "Group headers fold and unfold their rows"]
+    - [collapsed, "Group labels that start folded"]
     - [empty, "Sentence shown when there are no rows (or use t.empty { … })"]
     - [min_width, "CSS width that keeps columns readable; the table scrolls inside its box"]
 

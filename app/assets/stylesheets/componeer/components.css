@@ -176,6 +176,12 @@
 .tr-table tbody tr[aria-selected="true"] { background: var(--accent-soft); }
 .tr-table tbody tr.is-current { box-shadow: inset 3px 0 0 var(--accent); }
 .tr-table tr.tr-table__group { background: var(--row-group); }
+.tr-table tr.tr-table__group td:has(> .tr-table__toggle) { padding: 0; }
+.tr-table__toggle { display: flex; align-items: center; gap: 8px; width: 100%; min-height: var(--row-h); padding: 0 20px 0 14px; border: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.tr-table__toggle:hover { background: var(--row-hover); }
+.tr-table__toggle > .tr-icon { color: var(--icon); transition: transform 120ms; }
+.tr-table__toggle[aria-expanded="false"] > .tr-icon { transform: rotate(-90deg); }
+.tr-table tbody[data-collapsed] tr:not(.tr-table__group) { display: none; }
 .tr-empty { padding: 48px 20px; text-align: center; color: var(--muted); }
 .tr-table tr.tr-table__empty td { height: auto; padding: 0; white-space: normal; border-bottom: 0; }
 

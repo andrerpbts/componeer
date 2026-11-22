@@ -6,6 +6,7 @@ import RowLinkController from "componeer/controllers/row_link_controller"
 import ClipboardController from "componeer/controllers/clipboard_controller"
 import TabsController from "componeer/controllers/tabs_controller"
 import SegmentedController from "componeer/controllers/segmented_controller"
+import TableGroupController from "componeer/controllers/table_group_controller"
 
 export function registerComponeer(application) {
   application.register("componeer--popover", PopoverController)
@@ -16,4 +17,5 @@ export function registerComponeer(application) {
   application.register("componeer--clipboard", ClipboardController)
   application.register("componeer--tabs", TabsController)
   application.register("componeer--segmented", SegmentedController)
+  application.register("componeer--table-group", TableGroupController)
 }

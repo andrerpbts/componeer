@@ -18,6 +18,18 @@ RSpec.describe Componeer::TableComponent, type: :component do
     it { expect(page).to have_css("tr.tr-table__group", text: "Outubro") }
   end
 
+  context "with collapsible groups" do
+    before do
+      render_inline(described_class.new(rows:, group_by: ->(row) { row[:month] }, collapsible: true, collapsed: [ "Outubro" ])) do |table|
+        table.column("Número") { |row| row[:number] }
+      end
+    end
+
+    it { expect(page).to have_css("tbody[data-controller='componeer--table-group']", count: 2) }
+    it { expect(page).to have_css("tbody:not([data-collapsed]) .tr-table__toggle[aria-expanded=true]", text: "Novembro") }
+    it { expect(page).to have_css("tbody[data-collapsed] .tr-table__toggle[aria-expanded=false]", text: "Outubro") }
+  end
+
   context "when a column block returns a number" do
     before { render_inline(described_class.new(rows:)) { |table| table.column("Número") { |row| row[:number] } } }
 

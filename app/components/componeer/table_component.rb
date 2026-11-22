@@ -8,8 +8,10 @@ module Componeer
   class TableComponent < Component
     Column = Data.define(:header, :align, :width, :block)
 
-    def initialize(rows:, row_href: nil, current: nil, group_by: nil, empty: "Nada por aqui.", min_width: nil, **html)
+    def initialize(rows:, row_href: nil, current: nil, group_by: nil, collapsible: false, collapsed: [],
+      empty: "Nada por aqui.", min_width: nil, **html)
       @rows, @row_href, @current, @group_by, @empty, @min_width, @html = rows.to_a, row_href, current, group_by, empty, min_width, html
+      @collapsible, @collapsed = collapsible && group_by.present?, Array(collapsed)
       @columns = []
     end
 
@@ -39,6 +41,16 @@ module Componeer
     end
 
     # A column block may write ERB or just return a value (a String, a number…); both render.
+    def collapsed?(label)
+      @collapsible && @collapsed.include?(label)
+    end
+
+    def group_attributes(label)
+      return {} unless @collapsible && label
+
+      { data: { controller: "componeer--table-group", collapsed: (collapsed?(label) ? "" : nil) } }
+    end
+
     def cell(column, row)
       result = nil
       written = helpers.capture { result = column.block.call(row); nil }
