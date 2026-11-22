@@ -94,6 +94,24 @@
           config.icon_paths << Rails.root.join("app/assets/icons")
         end
 
+- slug: screens
+  title: Example screens
+  group: Guides
+  lead: Whole screens built only from Componeer helpers, to see how the pieces look together.
+  sections:
+    - heading: List with detail
+      text: "The everyday screen: filter a list, open a record beside it. App shell with a test-environment banner, a page header with actions, search, period and company filters and tabs, a table grouped by month, and the drawer of the current row."
+      screen: notes
+    - heading: Dashboard
+      text: Cards that answer "what now?" at a glance. A Day / Week / Month switch in the header, a warning callout, cards holding flush tables and a side card. Status colours only where something needs attention.
+      screen: agenda
+    - heading: Settings form
+      text: Fields grouped in cards, one primary action at the end. Text, select, read-only and invalid fields, switches and radios, a destructive zone, a warning with its action, and the toast that confirms the save.
+      screen: settings
+    - heading: List with confirmation
+      text: A destructive action confirmed in a modal over the list. Tabs with counts, a grouped table with progress and late markers, and the modal that names exactly what will happen.
+      screen: quests
+
 - slug: foundations
   title: Foundations
   group: Guides
@@ -107,38 +125,6 @@
         Copy is pt-BR, sentence case, verb-first on buttons ("Sincronizar", "Exportar filtro…"). Numbers and dates in pt-BR ("1.204", "R$ 1.500,00", "07/11/2026").
 
         With Tailwind in the same app, keep Tailwind for layout if you like, but take colours, type, radii and component looks from Componeer.
-
-- slug: screen_list
-  title: List with detail
-  group: Screens
-  lead: "The everyday screen: filter a list, open a record beside it."
-  sections:
-    - text: App shell with a test-environment banner, a page header with actions, search, period and company filters and tabs, a table grouped by month, and the drawer of the current row.
-      screen: notes
-
-- slug: screen_dashboard
-  title: Dashboard
-  group: Screens
-  lead: Cards that answer "what now?" at a glance.
-  sections:
-    - text: A Day / Week / Month switch in the header, a warning callout, cards holding flush tables and a side card. Status colours only where something needs attention.
-      screen: agenda
-
-- slug: screen_form
-  title: Settings form
-  group: Screens
-  lead: Fields grouped in cards, one primary action at the end.
-  sections:
-    - text: Text, select, read-only and invalid fields, switches and radios, a destructive zone, a warning with its action, and the toast that confirms the save.
-      screen: settings
-
-- slug: screen_confirmation
-  title: List with confirmation
-  group: Screens
-  lead: A destructive action confirmed in a modal over the list.
-  sections:
-    - text: Tabs with counts, a grouped table with progress and late markers, and the modal that names exactly what will happen.
-      screen: quests
 
 - slug: icon
   title: Icon

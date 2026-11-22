@@ -7,8 +7,12 @@ module Componeer
     attr_reader :slug, :title, :group, :lead, :helper, :sections, :options, :slots
 
     class << self
+      # Re-read when docs.yml changes, so edited docs show without restarting the server.
       def all
-        @all ||= YAML.load_file(Engine.root.join("config/docs.yml")).map { |attributes| new(**attributes.symbolize_keys) }
+        path = Engine.root.join("config/docs.yml")
+        @all = nil if @read_at != path.mtime
+        @read_at = path.mtime
+        @all ||= YAML.load_file(path).map { |attributes| new(**attributes.symbolize_keys) }
       end
 
       def find(slug)
