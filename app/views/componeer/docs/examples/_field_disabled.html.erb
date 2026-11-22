@@ -1,0 +1,23 @@
+<%= stack(style: "max-width: 420px") do %>
+  <%= field "CNPJ", hint: "Somente leitura: dá para selecionar e copiar, não para editar." do %>
+    <%= text_field_tag :doc, "12.345.678/0001-90", class: "tr-input", readonly: true %>
+  <% end %>
+  <%= field "Razão social", hint: "Desativado: liberado depois de validar o certificado." do %>
+    <%= text_field_tag :name, "Empresa Exemplo Ltda", class: "tr-input", disabled: true %>
+  <% end %>
+  <%= field "Município" do %>
+    <%= select_tag :city, options_for_select([ "São Paulo/SP" ]), class: "tr-select", disabled: true %>
+  <% end %>
+  <%= field "Observação" do %>
+    <%= text_field_tag :note, nil, class: "tr-input", placeholder: "Sem observações", disabled: true %>
+  <% end %>
+  <%= cluster(gap: "20px") do %>
+    <label class="tr-cluster" style="color: var(--muted)"><%= check_box_tag :locked, "1", true, class: "tr-check", disabled: true %> Marcado e desativado</label>
+    <label class="tr-cluster" style="color: var(--muted)"><%= radio_button_tag :kind_locked, "x", false, class: "tr-check", disabled: true %> Opção desativada</label>
+  <% end %>
+  <%= toggle_switch "settings[locked]", label: "Switch desativado", checked: true, disabled: true %>
+  <%= cluster do %>
+    <%= button "Salvar", variant: :primary, disabled: true %>
+    <%= button "Cancelar", disabled: true %>
+  <% end %>
+<% end %>

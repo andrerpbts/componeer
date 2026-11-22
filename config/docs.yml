@@ -252,6 +252,9 @@
   sections:
     - text: "`field` wraps any control with its label and a hint or error. Style the control with `tr-input`, `tr-select` or `tr-check` (also through form builders: `f.text_field :name, class: \"tr-input\"`). `search_input` is the search box with its icon; in a page header's filters row it grows to fill the row."
       example: field
+    - heading: Read-only and disabled
+      text: "Read-only (`readonly: true`) keeps a white field with a lighter border: the value reads and copies normally but cannot change. Disabled (`disabled: true`) is greyed out with muted text and a not-allowed cursor, and its label turns muted too. Say in the hint why a field is disabled and what unlocks it."
+      example: field_disabled
   options:
     - [label, "Text before the control"]
     - [hint, "Muted help line under the control"]
