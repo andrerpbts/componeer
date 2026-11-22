@@ -1,0 +1,18 @@
+<% certificates = [
+  { company: "Empresa Exemplo Ltda", kind: "A1", expires_on: "14/03/2027", status: :ok, label: "Válido" },
+  { company: "Demo Consultoria", kind: "A1", expires_on: "04/12/2026", status: :warn, label: "Vence em 12 dias" },
+  { company: "Loja Modelo Eireli", kind: "A3", expires_on: "02/09/2026", status: :bad, label: "Vencido" }
+] %>
+<%= table(rows: certificates, min_width: "720px") do |t| %>
+  <% t.column(check_box_tag("all", "1", false, class: "tr-check", aria: { label: "Selecionar todos" }), width: "44px") do |c| %>
+    <%= check_box_tag "ids[]", c[:company], false, class: "tr-check", id: nil, aria: { label: "Selecionar #{c[:company]}" } %>
+  <% end %>
+  <% t.column("Empresa") { |c| c[:company] } %>
+  <% t.column("Tipo") { |c| c[:kind] } %>
+  <% t.column("Validade") { |c| c[:expires_on] } %>
+  <% t.column("Situação") { |c| status_pill c[:label], status: c[:status] } %>
+  <% t.column("", align: :right, width: "96px") do |c| %>
+    <%= icon_button "refresh", label: "Trocar certificado de #{c[:company]}" %>
+    <%= icon_button "trash", label: "Remover #{c[:company]}", variant: :danger %>
+  <% end %>
+<% end %>

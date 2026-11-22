@@ -1,5 +1,18 @@
 <%= tabs(label: "Situação da quest") do |t| %>
-  <% t.with_tab "Ativas", href: "?status=active", count: 7, selected: true %>
-  <% t.with_tab "Concluídas", href: "?status=completed", count: 2 %>
-  <% t.with_tab "Abandonadas", href: "?status=abandoned", count: 1 %>
+  <% t.with_tab "Ativas", count: 2, selected: true, panel: "quests-active" %>
+  <% t.with_tab "Concluídas", count: 1, panel: "quests-completed" %>
+  <% t.with_tab "Abandonadas", count: 1, panel: "quests-abandoned" %>
+<% end %>
+
+<%= tab_panel(id: "quests-active", selected: true, style: "padding: 16px 0") do %>
+  <%= stack(gap: "8px") do %>
+    <span>Lançar o canal até março</span>
+    <span>Fechar 3 clientes novos no trimestre</span>
+  <% end %>
+<% end %>
+<%= tab_panel(id: "quests-completed", style: "padding: 16px 0") do %>
+  <span>Configurar a base do projeto</span>
+<% end %>
+<%= tab_panel(id: "quests-abandoned", style: "padding: 16px 0") do %>
+  <%= empty_state "Testar anúncios pagos — abandonada em 02/10/2026." %>
 <% end %>

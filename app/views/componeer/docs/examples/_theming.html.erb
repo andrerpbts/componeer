@@ -10,12 +10,12 @@
         <% c.with_action { status_pill "Ativa", status: :accent } %>
         <%= stack(gap: "12px") do %>
           <%= tabs(label: "Situação — #{name}") do |t| %>
-            <% t.with_tab "Ativas", href: "#ativas", count: 7, selected: true %>
-            <% t.with_tab "Concluídas", href: "#concluidas", count: 2 %>
+            <% t.with_tab "Ativas", count: 7, selected: true %>
+            <% t.with_tab "Concluídas", count: 2 %>
           <% end %>
           <%= segmented(label: "Visão — #{name}") do |views| %>
-            <% views.with_item "Dia", href: "#dia", pressed: true %>
-            <% views.with_item "Semana", href: "#semana" %>
+            <% views.with_item "Dia", pressed: true %>
+            <% views.with_item "Semana" %>
           <% end %>
           <label class="tr-cluster"><%= check_box_tag "done", "1", true, class: "tr-check", id: nil %> Missão concluída</label>
           <%= callout "Nova versão disponível.", icon: "refresh" %>

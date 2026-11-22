@@ -1,0 +1,15 @@
+<%= stack do %>
+  <%= table(rows: [], empty: "Nenhuma nota por aqui.") do |t| %>
+    <% t.column("Número") { |note| note } %>
+  <% end %>
+
+  <%= table(rows: []) do |t| %>
+    <% t.column("Número") { |note| note } %>
+    <% t.empty do %>
+      <%= empty_state "Nenhuma nota neste filtro", icon: "file-search",
+            description: "Nenhuma nota emitida entre 01/11 e 30/11 para Demo Consultoria." do |e| %>
+        <% e.with_action { button "Limpar filtros", icon: "filter-off" } %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

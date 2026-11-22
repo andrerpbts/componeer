@@ -1,5 +1,12 @@
-<%= segmented(label: "Visão") do |views| %>
-  <% views.with_item "Dia", href: "?view=day", pressed: true %>
-  <% views.with_item "Semana", href: "?view=week" %>
-  <% views.with_item "Mês", href: "?view=month" %>
+<%= stack(gap: "12px") do %>
+  <%= segmented(label: "Visão") do |views| %>
+    <% views.with_item "Dia", value: "day", pressed: true %>
+    <% views.with_item "Semana", value: "week" %>
+    <% views.with_item "Mês", value: "month" %>
+  <% end %>
+  <%= segmented(label: "Visão por URL") do |views| %>
+    <% views.with_item "Dia", href: "?view=day", pressed: true %>
+    <% views.with_item "Semana", href: "?view=week" %>
+    <% views.with_item "Mês", href: "?view=month" %>
+  <% end %>
 <% end %>

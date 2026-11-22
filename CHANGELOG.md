@@ -14,3 +14,8 @@
 - `pagination`: page links for long lists; the icon gallery is paged by letter and by 240 icons.
 - Docs use the full width; sidebar groups are divided by a line.
 - Componeer logo; Theming guide with live themes and every Trail UI variable.
+- Tabs and segmented controls switch on the page when they have no href (Stimulus);
+  `tab_panel` shows the content of the selected tab; arrow keys move between tabs.
+- `empty_state` redone: icon, title, description, actions, small and bordered variants;
+  tables take `t.empty { … }` for a full empty state.
+- Docs: more table and empty state examples; helper signatures shown one argument per line.

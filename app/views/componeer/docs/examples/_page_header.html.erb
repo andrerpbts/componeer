@@ -9,8 +9,8 @@
             options: [ { value: 1, label: "Empresa Exemplo Ltda" }, { value: 2, label: "Fictícia Serviços ME" } ] %>
     <% end %>
     <% header.with_tabs(label: "Tipo de nota") do |tabs| %>
-      <% tabs.with_tab "Emitidas", href: "#emitidas", count: 1204, selected: true %>
-      <% tabs.with_tab "Recebidas", href: "#recebidas", count: 318 %>
+      <% tabs.with_tab "Emitidas", count: 1204, selected: true %>
+      <% tabs.with_tab "Recebidas", count: 318 %>
       <% tabs.with_action { button "Colunas", size: :sm, icon: "columns" } %>
     <% end %>
   <% end %>

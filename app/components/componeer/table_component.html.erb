@@ -1,5 +1,5 @@
 <% if @rows.empty? %>
-  <%= render Componeer::EmptyStateComponent.new(@empty) %>
+  <%= empty_content %>
 <% else %>
   <%= tag.div(**html_attributes(nil, @html, style: "overflow-x: auto")) do %>
     <table class="tr-table" <% if @min_width %>style="min-width: <%= @min_width %>"<% end %>>

@@ -3,6 +3,7 @@ module Componeer
   #
   #   table(rows: @notes, row_href: ->(note) { note_path(note) }) do |t|
   #     t.column("Número", align: :right) { |note| note.number }
+  #     t.empty { empty_state "Nenhuma nota", icon: "file-off" }
   #   end
   class TableComponent < Component
     Column = Data.define(:header, :align, :width, :block)
@@ -15,6 +16,16 @@ module Componeer
     def column(header, align: :left, width: nil, &block)
       @columns << Column.new(header:, align:, width:, block:)
       nil
+    end
+
+    # What shows when there are no rows, usually an empty_state with an icon and an action.
+    def empty(&block)
+      @empty_block = block
+      nil
+    end
+
+    def empty_content
+      @empty_block ? helpers.capture(&@empty_block) : render(EmptyStateComponent.new(@empty))
     end
 
     def before_render

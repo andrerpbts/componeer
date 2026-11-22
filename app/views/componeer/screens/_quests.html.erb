@@ -20,9 +20,9 @@
             options: quests.uniq { |q| q[:project] }.map { |q| { value: q[:project], label: q[:project], color: q[:color] } } %>
     <% end %>
     <% header.with_tabs(label: "Situação da quest") do |tabs| %>
-      <% tabs.with_tab "Ativas", href: "#ativas", count: 7, selected: true %>
-      <% tabs.with_tab "Concluídas", href: "#concluidas", count: 2 %>
-      <% tabs.with_tab "Abandonadas", href: "#abandonadas", count: 1 %>
+      <% tabs.with_tab "Ativas", count: 7, selected: true %>
+      <% tabs.with_tab "Concluídas", count: 2 %>
+      <% tabs.with_tab "Abandonadas", count: 1 %>
     <% end %>
   <% end %>
 

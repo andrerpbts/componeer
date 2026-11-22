@@ -1,0 +1,11 @@
+<% companies = [
+  { name: "Empresa Exemplo Ltda", doc: "12.345.678/0001-90", city: "São Paulo/SP", notes: 1204 },
+  { name: "Fictícia Serviços ME", doc: "98.765.432/0001-10", city: "Campinas/SP", notes: 318 },
+  { name: "Demo Consultoria", doc: "11.222.333/0001-44", city: "Curitiba/PR", notes: 42 }
+] %>
+<%= table(rows: companies) do |t| %>
+  <% t.column("Empresa") { |c| c[:name] } %>
+  <% t.column("CNPJ") { |c| tag.span(c[:doc], class: "tr-num") } %>
+  <% t.column("Município") { |c| c[:city] } %>
+  <% t.column("Notas", align: :right) { |c| number_with_delimiter(c[:notes], delimiter: ".") } %>
+<% end %>

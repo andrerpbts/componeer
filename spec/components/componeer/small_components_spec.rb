@@ -39,6 +39,29 @@ RSpec.describe "Small components", type: :component do
     it { expect(page).to have_css(".tr-help[role=alert]", text: "Vence em 30 dias.") }
   end
 
+  describe Componeer::EmptyStateComponent do
+    context "with icon, description and an action" do
+      before do
+        render_inline(described_class.new("Nenhuma nota", description: "Mude o período.", icon: "file-search", bordered: true)) do |empty|
+          empty.with_action { "Limpar filtros" }
+        end
+      end
+
+      it { expect(page).to have_css(".tr-empty-state.tr-empty-state--bordered[role=status]") }
+      it { expect(page).to have_css(".tr-empty-state__icon svg.tr-icon") }
+      it { expect(page).to have_css(".tr-empty-state__title", text: "Nenhuma nota") }
+      it { expect(page).to have_css(".tr-empty-state__text", text: "Mude o período.") }
+      it { expect(page).to have_css(".tr-empty-state__actions", text: "Limpar filtros") }
+    end
+
+    context "when small with only a title" do
+      before { render_inline(described_class.new("Nada agendado", size: :sm)) }
+
+      it { expect(page).to have_css(".tr-empty-state--sm .tr-empty-state__title", text: "Nada agendado") }
+      it { expect(page).to have_no_css(".tr-empty-state__icon") }
+    end
+  end
+
   describe Componeer::ToggleSwitchComponent do
     before { render_inline(described_class.new("auto_sync", label: "Sincronizar", checked: true)) }
 
@@ -54,7 +77,7 @@ RSpec.describe "Small components", type: :component do
     end
 
     it { expect(page).to have_css(".tr-segmented[role=group] a[aria-current=page]", text: "Dia") }
-    it { expect(page).to have_css(".tr-segmented button[aria-pressed=false]", text: "Mês") }
+    it { expect(page).to have_css(".tr-segmented[data-controller='componeer--segmented'] button[aria-pressed=false][value=Mês][data-action='componeer--segmented#select']", text: "Mês") }
   end
 
   describe Componeer::AppShellComponent do

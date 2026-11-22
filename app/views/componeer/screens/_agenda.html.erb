@@ -21,9 +21,9 @@
   <%= page_header(title: "Agenda", subtitle: "Hoje é sexta, 20 de novembro de 2026") do |header| %>
     <% header.with_action do %>
       <%= segmented(label: "Visão") do |views| %>
-        <% views.with_item "Dia", href: "#dia", pressed: true %>
-        <% views.with_item "Semana", href: "#semana" %>
-        <% views.with_item "Mês", href: "#mes" %>
+        <% views.with_item "Dia", pressed: true %>
+        <% views.with_item "Semana" %>
+        <% views.with_item "Mês" %>
       <% end %>
     <% end %>
     <% header.with_filters do %>

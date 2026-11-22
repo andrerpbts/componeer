@@ -21,6 +21,7 @@ module Componeer
     sidebar: "Componeer::SidebarComponent",
     app_shell: "Componeer::AppShellComponent",
     tabs: "Componeer::TabsComponent",
+    tab_panel: "Componeer::TabPanelComponent",
     page_header: "Componeer::PageHeaderComponent",
     popover: "Componeer::PopoverComponent",
     multi_select: "Componeer::MultiSelectComponent",

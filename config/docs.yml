@@ -178,7 +178,14 @@
   title: Icon
   group: Foundations
   lead: The whole Tabler set (3.19, outline and filled), inlined so icons take the text colour.
-  helper: "icon(name, size: 16, variant: :outline, label: nil, **html)"
+  helper: |
+    icon(
+      name,
+      size: 16,
+      variant: :outline,  # or :filled
+      label: nil,         # accessible name; omit for decorative icons
+      **html
+    )
   sections:
     - text: Use the Tabler name (`file-text`, `alert-triangle`; underscores work too). Icons are decorative and hidden from screen readers unless you pass `label:`. Buttons take `icon:` directly.
       example: icons
@@ -195,7 +202,18 @@
   title: Button
   group: Actions
   lead: Every action, with one modifier for its role.
-  helper: "button(label = nil, variant: :default, size: :md, icon: nil, href: nil, type: \"button\", **html)"
+  helper: |
+    button(
+      label = nil,        # or a block with custom content
+      variant: :default,  # :primary, :danger, :danger_fill, :ghost
+      size: :md,          # or :sm
+      icon: nil,
+      href: nil,          # renders a link instead of a <button>
+      type: "button",
+      **html
+    )
+
+    icon_button(icon, label:, variant: :ghost, href: nil, **html)
   sections:
     - text: "`primary` is the one action the page exists for, at most once per view. `danger` marks destructive actions that still confirm; `danger_fill` is only the confirming button inside a modal. With `href:` it renders a link. Pass a block instead of `label` for custom content."
       example: button_variants
@@ -213,16 +231,24 @@
   title: Segmented
   group: Actions
   lead: Switch between 2–4 views of the same data.
-  helper: "segmented(label:) { |s| s.with_item(label, href: nil, pressed: false) }"
+  helper: |
+    segmented(label:) do |views|
+      views.with_item(label, href: nil, pressed: false, value: nil)
+    end
   sections:
-    - text: Items with `href:` are links (the current one gets aria-current); without it they are buttons with aria-pressed for Stimulus to drive. For filters use a multi-select; for record subsets with counts use tabs.
+    - text: "Without `href:` the items are buttons that switch on the page and dispatch `componeer--segmented:change` with the chosen `value` (first row). With `href:` each item is a link and the current one gets aria-current (second row): use that when each view has its own URL. For filters use a multi-select; for record subsets with counts use tabs."
       example: segmented
 
 - slug: field
   title: Fields
   group: Forms
   lead: Inputs, selects, checkboxes and the search field, all 34px to line up with buttons.
-  helper: "field(label, hint: nil, error: nil) { control }"
+  helper: |
+    field(label, hint: nil, error: nil) do
+      # the control: text_field_tag, f.select… with class "tr-input" / "tr-select"
+    end
+
+    search_input(name: :q, value: nil, placeholder: "Buscar", label: nil, **html)
   sections:
     - text: "`field` wraps any control with its label and a hint or error. Style the control with `tr-input`, `tr-select` or `tr-check` (also through form builders: `f.text_field :name, class: \"tr-input\"`). `search_input` is the search box with its icon; in a page header's filters row it grows to fill the row."
       example: field
@@ -235,7 +261,14 @@
   title: Switch
   group: Forms
   lead: An on/off setting that applies right away.
-  helper: "toggle_switch(name, label:, checked: false, value: \"1\", **html)"
+  helper: |
+    toggle_switch(
+      name,
+      label:,
+      checked: false,
+      value: "1",
+      **html
+    )
   sections:
     - text: It is a real checkbox with role=switch, so it submits with forms. When the change is only saved with the form, prefer a plain checkbox.
       example: toggle_switch
@@ -244,7 +277,11 @@
   title: Status
   group: Status
   lead: Dots, pills, counters and badges.
-  helper: "status_dot(status = :neutral) · status_pill(label, status: :ok, dot: true) · counter(n) · badge(text)"
+  helper: |
+    status_dot(status = :neutral, color: nil)        # :ok, :warn, :bad, :neutral
+    status_pill(label, status: :ok, dot: true)        # :ok, :bad, :neutral, :accent, :warn
+    counter(number)
+    badge(text)
   sections:
     - text: "`status_dot` (:ok, :warn, :bad, :neutral, or `color:` for a project colour) sits before a status word in lists; never alone. `status_pill` shows one record's state in a header (:ok, :bad, :neutral, :accent, :warn). `counter` is the number behind a tab or option, with the locale's thousands separator. `badge` is a \"+N\" on a button."
       example: status
@@ -253,7 +290,14 @@
   title: Callout
   group: Status
   lead: Inline messages inside a page or panel.
-  helper: "callout(text = nil, variant: :info, icon: nil) { |c| c.with_action { … } }"
+  helper: |
+    callout(
+      text = nil,
+      variant: :info,     # :ok, :warning
+      icon: nil
+    ) do |c|
+      c.with_action { … }  # :warning only
+    end
   sections:
     - text: ":info informs, :ok confirms, :warning asks the person to act and may hold one small action. One sentence saying what happened and what to do."
       example: callout
@@ -262,7 +306,17 @@
   title: App shell
   group: Layout
   lead: The frame of every screen.
-  helper: "app_shell { |shell| shell.with_banner(text, kind: :test); shell.with_sidebar(brand:) { |s| s.with_item(label, href:, icon:) } }"
+  helper: |
+    app_shell do |shell|
+      shell.with_banner(text, kind: :test)  # or :sandbox
+      shell.with_sidebar(brand:, brand_href: "/") do |sidebar|
+        sidebar.with_brand_logo { … }
+        sidebar.with_item(label, href:, icon: nil, current: nil)
+        sidebar.with_heading(text)
+        sidebar.with_footer { … }
+      end
+      # page content
+    end
   sections:
     - text: |
         Use it once, in the application layout, around `yield`. The banner names any environment that is not the real one (:test yellow, :sandbox violet); real data shows none. Sidebar items mark themselves current with `current_page?` unless you pass `current:`; `with_heading` groups the items after it.
@@ -277,7 +331,15 @@
   title: Page header
   group: Layout
   lead: Title row, filters row and tabs row, the same on every page.
-  helper: "page_header(title:, subtitle: nil) { |h| h.with_action {…}; h.with_filters {…}; h.with_tabs(label:) {…} }"
+  helper: |
+    page_header(title:, subtitle: nil) do |header|
+      header.with_action { … }   # one per action, primary last
+      header.with_filters { … }  # search_input, multi_select, period_picker
+      header.with_tabs(label:) do |tabs|
+        tabs.with_tab(label, href: nil, count: nil, selected: false)
+        tabs.with_action { … }
+      end
+    end
   sections:
     - text: Keep the same structure on every page so titles, actions and filters never move between views. The subtitle is one line of live context (last sync, today's date). Actions go right, secondary first and the primary last. Filters start with the search field; pickers follow at their natural width.
       example: page_header
@@ -290,7 +352,16 @@
   title: Card
   group: Layout
   lead: A bordered panel that groups related content on a page.
-  helper: "card(title: nil, subtitle: nil, flush: false) { |c| c.with_action {…}; c.with_footer {…} }"
+  helper: |
+    card(
+      title: nil,
+      subtitle: nil,
+      flush: false  # no body padding, for tables
+    ) do |c|
+      c.with_action { … }
+      c.with_footer { … }
+      # body
+    end
   sections:
     - text: "Use cards to group content on dashboards and detail pages, not around every block. `flush: true` removes the body padding so a table fills the card edge to edge. Trail UI added Card for Componeer; it is built only from existing tokens."
       example: card
@@ -302,16 +373,40 @@
   title: Tabs
   group: Layout
   lead: Subsets of the same records, each with its count.
-  helper: "tabs(label:) { |t| t.with_tab(label, href: nil, count: nil, selected: false); t.with_action {…} }"
+  helper: |
+    tabs(label:) do |t|
+      t.with_tab(label, href: nil, count: nil, selected: false, panel: nil)
+      t.with_action { … }
+    end
+
+    tab_panel(id:, selected: false) do
+      # shown while the tab with panel: id is selected
+    end
   sections:
-    - text: Usually filled through `page_header`'s tabs slot. Tabs with `href:` are links, so each subset has its own URL.
+    - text: |
+        Tabs without `href:` switch on the page: give each one `panel:` with the id of a `tab_panel` and only the selected panel shows. Arrow keys move between tabs. They dispatch `componeer--tabs:change`.
+
+        Tabs with `href:` are links, so each subset has its own URL (the usual choice for filtered lists, as in `page_header`'s tabs slot).
       example: tabs
 
 - slug: multi_select
   title: Multi-select
   group: Pickers
   lead: Filter by several values of one dimension. Never pills, never a single select.
-  helper: "multi_select(name:, label:, options:, selected: nil, icon: nil, all_label:, none_label:, many_label:, searchable: nil)"
+  helper: |
+    multi_select(
+      name:,
+      label:,
+      options:,                  # values or { value:, label:, sub:, status:, color: }
+      selected: nil,             # nil = all
+      icon: nil,
+      all_label: "Todos",
+      none_label: "Nenhum",
+      many_label: "%{count} selecionados",
+      searchable: nil,           # nil = more than 8 options
+      search_placeholder: "Buscar",
+      align: :left
+    )
   sections:
     - text: |
         Options are values or hashes (`value`, `label`, optional `sub`, `status` or `color`). It submits `name[]` with the checked values; `selected: nil` means all. The summary on the trigger follows the choice: all, none, the one name, or `many_label` with `%{count}`. Search appears by itself above 8 options.
@@ -323,7 +418,15 @@
   title: Period picker
   group: Pickers
   lead: A date range from presets or two date fields.
-  helper: "period_picker(from_name: :from, to_name: :to, from: nil, to: nil, presets: [], title: \"Período\")"
+  helper: |
+    period_picker(
+      from_name: :from,
+      to_name: :to,
+      from: nil,
+      to: nil,
+      presets: [],  # [{ label:, from:, to: }]
+      title: "Período"
+    )
   sections:
     - text: Presets are hashes with `label`, `from` and `to` (nil for an open end). Picking one fills both fields and closes the panel; editing a date clears the preset. It dispatches `componeer--period-picker:change`.
       example: period_picker
@@ -332,7 +435,11 @@
   title: Popover
   group: Pickers
   lead: A trigger with a floating panel, for anything the other pickers do not cover.
-  helper: "popover(align: :left) { |p| p.with_trigger { button … } }"
+  helper: |
+    popover(align: :left) do |p|
+      p.with_trigger { button … }
+      # panel content
+    end
   sections:
     - text: "The panel opens under the trigger and closes on Escape or a click outside. Use `align: :right` near the right edge."
       example: popover
@@ -341,33 +448,89 @@
   title: Table
   group: Data
   lead: Dense lists of records, declared column by column.
-  helper: "table(rows:, row_href: nil, current: nil, group_by: nil, empty: \"Nada por aqui.\", min_width: nil) { |t| t.column(header, align:, width:) { |row| … } }"
+  helper: |
+    table(
+      rows:,
+      row_href: nil,   # ->(row) { url }
+      current: nil,    # ->(row) { true for the open row }
+      group_by: nil,   # ->(row) { group label }
+      empty: "Nada por aqui.",
+      min_width: nil
+    ) do |t|
+      t.column(header, align: :left, width: nil) { |row| … }
+      t.empty { … }    # instead of empty:
+    end
   sections:
-    - text: |
-        Each `column` block receives the row and returns the cell. `row_href` makes whole rows clickable (links and buttons inside keep working); `current` marks the row whose detail is open; `group_by` adds group header rows. An empty collection shows `empty` instead of the table.
-
-        Right-align money and quantities. Inside a card, use `card(flush: true)`.
-      example: table
+    - heading: Simple
+      text: Each `column` block receives the row and returns the cell (a value or ERB). Right-align money and quantities; numbers are tabular.
+      example: table_simple
+    - heading: Grouped, clickable, current row
+      text: "`group_by` adds a header row per group with its count. `row_href` makes whole rows clickable without stealing clicks from links, buttons and checkboxes inside them. `current` marks the row whose drawer is open. `min_width` keeps columns readable: the table scrolls sideways inside its box."
+      example: table_grouped
+    - heading: Selection, status and row actions
+      text: A column header can be any markup, like a select-all checkbox. Put row actions in a narrow right-aligned last column as icon buttons with labels that name the record.
+      example: table_actions
+    - heading: Without data
+      text: "With no rows the table renders an empty state instead. `empty:` takes a plain sentence; `t.empty { … }` takes any markup, usually an `empty_state` with an icon, a description that names the filter and a way out."
+      example: table_empty
+    - heading: In a card, with pagination
+      text: "`card(flush: true)` lets the table fill the card edge to edge; `pagination` goes in the card footer."
+      example: table_card
   options:
     - [rows, "Any enumerable"]
     - [row_href, "Lambda row → URL; the row becomes a link"]
     - [current, "Lambda row → true for the row whose drawer is open"]
     - [group_by, "Lambda row → group label"]
+    - [empty, "Sentence shown when there are no rows (or use t.empty { … })"]
     - [min_width, "CSS width that keeps columns readable; the table scrolls inside its box"]
 
 - slug: empty_state
   title: Empty state
   group: Data
-  lead: Say what is empty, in the list's own terms.
-  helper: empty_state(text = nil)
+  lead: Say what is empty in the list's own terms and offer the way out.
+  helper: |
+    empty_state(
+      title = nil,
+      description: nil,
+      icon: nil,
+      size: :md,        # or :sm
+      bordered: false
+    ) do |e|
+      e.with_action { … }
+    end
   sections:
-    - example: empty_state
+    - heading: Just a sentence
+      text: The smallest form, for places where the context already explains itself.
+      example: empty_state
+    - heading: Custom text and icon
+      text: "The title says what is empty (\"Nenhuma quest concluída ainda\"), the description says why or what will fill it. Pick a Tabler icon for the thing that is missing, not a generic one. Any extra markup in the block goes under the description."
+      example: empty_state_icon
+    - heading: With actions
+      text: "First use and filters that match nothing deserve a way out: one primary action, at most one secondary. `bordered: true` draws a dashed outline for an empty area inside a page."
+      example: empty_state_action
+    - heading: Small
+      text: "`size: :sm` for cards and side panels."
+      example: empty_state_small
+  options:
+    - [title, "What is empty, as a short sentence"]
+    - [description, "Why it is empty or what will fill it"]
+    - [icon, "Tabler icon of the missing thing, shown in a soft circle"]
+    - [size, ":md (pages, tables) or :sm (cards, side panels)"]
+    - [bordered, "Dashed outline for an empty area inside a page"]
+  slots:
+    - [action, "Buttons under the text; the first one primary"]
 
 - slug: pagination
   title: Pagination
   group: Data
   lead: Page links for long lists.
-  helper: "pagination(page:, pages:, url:, label: \"Paginação\")"
+  helper: |
+    pagination(
+      page:,
+      pages:,
+      url:,              # ->(page) { url }
+      label: "Paginação"
+    )
   sections:
     - text: "`url` is a lambda from a page number to its URL, so it works with any pagination source (`pagy`, `limit`/`offset`, your own). It shows the first and last pages and two pages around the current one; with a single page it renders nothing."
       example: pagination
@@ -376,7 +539,14 @@
   title: Code block
   group: Data
   lead: Source code with syntax colours and a copy button.
-  helper: "code_block(source = nil, language: :plaintext, title: nil, copy: true, **html)"
+  helper: |
+    code_block(
+      source = nil,          # or the block's text
+      language: :plaintext,  # any Rouge lexer: :ruby, :erb, :javascript, :css, :json, :sql…
+      title: nil,
+      copy: true,
+      **html
+    )
   sections:
     - text: |
         Highlighting runs on the server with Rouge, so it works without JavaScript and supports 200+ languages (`ruby`, `erb`, `javascript`, `html`, `css`, `json`, `yaml`, `sql`, `shell`…). The colours are Trail UI's `code-*` tokens. Pass the source as the first argument or as the block's text; the title defaults to the language name.
@@ -390,7 +560,12 @@
   title: Drawer
   group: Overlays
   lead: A record's detail on the right edge, over the list it came from.
-  helper: "drawer(title:, close_href: nil, eyebrow: nil) { |d| d.with_meta {…}; d.with_action {…}; d.with_section(title) {…} }"
+  helper: |
+    drawer(title:, close_href: nil, eyebrow: nil) do |d|
+      d.with_meta { … }
+      d.with_action { … }
+      d.with_section(title = nil) { … }
+    end
   sections:
     - text: |
         Render it into a Turbo Frame next to the list so the list stays usable, and mark the list row `current`. Escape and the close button follow `close_href` (or remove the drawer when there is none).
@@ -404,7 +579,11 @@
   title: Modal
   group: Overlays
   lead: A blocking dialog for confirmations and short forms.
-  helper: "modal(title:, subtitle: nil, close_href: nil, width: \"440px\") { |m| m.with_footer {…} }"
+  helper: |
+    modal(title:, subtitle: nil, close_href: nil, width: "440px") do |m|
+      # body
+      m.with_footer { … }  # "Cancelar" first, confirm last
+    end
   sections:
     - text: Footer buttons go "Cancelar" first, the confirming action last; a destructive confirm uses `danger_fill` and repeats the verb from the title.
       example: modal
@@ -413,7 +592,12 @@
   title: Toast
   group: Overlays
   lead: A short confirmation after an action.
-  helper: "toast(message, variant: :default, dismiss_after: 6000) · toasts(flash: nil)"
+  helper: |
+    toast(message, variant: :default, dismiss_after: 6000) do |t|
+      t.with_action { … }
+    end
+
+    toasts(flash: nil)  # without a block, shows the flash
   sections:
     - text: "`toasts` without a block shows the flash (`notice` as a toast, `alert` as an error toast); put it once in the layout. Toasts leave after `dismiss_after` milliseconds (0 keeps them)."
       example: toast

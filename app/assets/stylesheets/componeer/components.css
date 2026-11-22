@@ -246,3 +246,14 @@ a.tr-tab { text-decoration: none; }
 .tr-pagination a[aria-current="page"] { background: var(--accent); border-color: var(--accent-dark); color: var(--on-accent); font-weight: 600; }
 .tr-pagination [aria-disabled="true"] { opacity: 0.45; cursor: default; }
 .tr-pagination__gap { padding: 0 4px; color: var(--muted); }
+
+/* Empty state (replaces the bare tr-empty line: icon, title, description, actions) */
+.tr-empty-state { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 40px 20px; text-align: center; }
+.tr-empty-state__icon { display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; margin-bottom: 6px; border-radius: var(--radius-pill); background: var(--surface-2); color: var(--icon); }
+.tr-empty-state__title { margin: 0; font-size: 15px; font-weight: 600; color: var(--ink); }
+.tr-empty-state__text { margin: 0; max-width: 52ch; line-height: 1.5; color: var(--muted); }
+.tr-empty-state__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 10px; }
+.tr-empty-state--sm { gap: 4px; padding: 24px 16px; }
+.tr-empty-state--sm .tr-empty-state__icon { width: 36px; height: 36px; margin-bottom: 4px; }
+.tr-empty-state--sm .tr-empty-state__title { font-size: 13px; }
+.tr-empty-state--bordered { border: 1px dashed var(--field); border-radius: var(--radius-lg); }

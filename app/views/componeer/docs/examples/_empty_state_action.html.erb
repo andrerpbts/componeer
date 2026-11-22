@@ -1,0 +1,5 @@
+<%= empty_state "Cadastre a primeira empresa", icon: "building", bordered: true,
+      description: "Com o certificado digital da empresa, as notas emitidas e recebidas são baixadas sozinhas." do |e| %>
+  <% e.with_action { button "Adicionar certificado…", variant: :primary, icon: "plus" } %>
+  <% e.with_action { button "Como funciona", variant: :ghost, icon: "info-circle" } %>
+<% end %>

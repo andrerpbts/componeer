@@ -92,7 +92,7 @@ bin/rails server   # then open http://localhost:3000/componeer
 | Actions | `button`, `icon_button`, `segmented` |
 | Forms | `field`, `search_input`, `toggle_switch` (+ `tr-input`, `tr-select`, `tr-check` on Rails form helpers) |
 | Status | `status_dot`, `status_pill`, `counter`, `badge`, `callout` |
-| Layout | `app_shell`, `sidebar`, `nav_item`, `env_banner`, `page_header`, `tabs`, `card`, `stack`, `cluster` |
+| Layout | `app_shell`, `sidebar`, `nav_item`, `env_banner`, `page_header`, `tabs`, `tab_panel`, `card`, `stack`, `cluster` |
 | Pickers | `multi_select`, `period_picker`, `popover` |
 | Data | `table`, `empty_state`, `pagination`, `code_block` (syntax highlighting with Rouge) |
 | Overlays | `drawer`, `modal`, `toast`, `toasts` |

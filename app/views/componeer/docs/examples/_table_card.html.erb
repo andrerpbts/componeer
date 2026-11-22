@@ -1,0 +1,12 @@
+<% rows = (1..5).map { |i| { number: 1240 - i, client: [ "Empresa Exemplo Ltda", "Fictícia Serviços ME", "Demo Consultoria" ][i % 3], value: "R$ #{i * 310},00" } } %>
+<%= card(title: "Últimas notas", subtitle: "Página 2 de 12", flush: true) do |c| %>
+  <% c.with_action { button "Ver todas", size: :sm, href: "#notas" } %>
+  <%= table(rows: rows) do |t| %>
+    <% t.column("Número") { |n| n[:number] } %>
+    <% t.column("Tomador") { |n| n[:client] } %>
+    <% t.column("Valor", align: :right) { |n| n[:value] } %>
+  <% end %>
+  <% c.with_footer do %>
+    <%= pagination page: 2, pages: 12, url: ->(page) { "?page=#{page}" } %>
+  <% end %>
+<% end %>
