@@ -1,13 +1,40 @@
-<div class="doc-icons" data-controller="docs-icons">
-  <div class="tr-filters" style="padding: 0">
-    <%= search_input name: :icon_query, placeholder: "Buscar ícone (ex.: calendar, arrow, user)", data: { action: "input->docs-icons#filter", "docs-icons-target": "query" } %>
+<% gallery = Componeer::IconGallery.new(variant: params[:variant], letter: params[:letter], query: params[:q], page: params[:page]) %>
+<% page_url = ->(page) { componeer.doc_path("icon", variant: gallery.variant, letter: (gallery.letter unless gallery.searching?), q: gallery.query.presence, page: page, anchor: "all-icons") } %>
+<div class="doc-icons" id="all-icons" data-controller="docs-icons">
+  <form action="<%= componeer.doc_path("icon", anchor: "all-icons") %>" method="get" class="tr-filters" style="padding: 0">
+    <input type="hidden" name="variant" value="<%= gallery.variant %>">
+    <%= search_input name: :q, value: gallery.query, placeholder: "Buscar em todos os ícones (ex.: calendar, arrow, user)" %>
+    <%= button "Buscar", type: "submit" %>
     <%= segmented(label: "Variante") do |variants| %>
-      <% variants.with_item "Outline · #{Componeer::Icons.names(variant: :outline).size}", pressed: true, data: { action: "docs-icons#show", variant: "outline" } %>
-      <% variants.with_item "Filled · #{Componeer::Icons.names(variant: :filled).size}", data: { action: "docs-icons#show", variant: "filled" } %>
+      <% %i[outline filled].each do |variant| %>
+        <% variants.with_item "#{variant.to_s.capitalize} · #{gallery.count(variant)}",
+             href: componeer.doc_path("icon", variant: variant, q: gallery.query.presence, anchor: "all-icons"), pressed: gallery.variant == variant %>
+      <% end %>
     <% end %>
-  </div>
-  <p class="tr-muted" data-docs-icons-target="status" aria-live="polite">Clique num ícone para copiar o código.</p>
-  <%= icon_gallery_grid(:outline) %>
-  <%= icon_gallery_grid(:filled, hidden: true) %>
-  <p class="tr-empty" hidden data-docs-icons-target="none">Nenhum ícone com esse nome.</p>
+  </form>
+
+  <nav class="tr-pagination" aria-label="Ícones por letra">
+    <% gallery.letters.each do |letter, names| %>
+      <%= link_to letter.upcase, componeer.doc_path("icon", variant: gallery.variant, letter: letter, anchor: "all-icons"),
+            class: "tr-btn tr-btn--sm", style: "min-width: 32px", title: "#{names.size} ícones",
+            aria: { current: (!gallery.searching? && letter == gallery.letter ? "page" : nil) } %>
+    <% end %>
+  </nav>
+
+  <p class="tr-muted" data-docs-icons-target="status" aria-live="polite">
+    <% if gallery.searching? %>
+      <%= pluralize(gallery.matches.size, "ícone", plural: "ícones") %> com “<%= gallery.query %>”
+      · <%= link_to "Limpar busca", componeer.doc_path("icon", variant: gallery.variant, anchor: "all-icons") %>
+    <% else %>
+      Letra <%= gallery.letter.upcase %> · <%= pluralize(gallery.matches.size, "ícone", plural: "ícones") %>. Clique num ícone para copiar o código.
+    <% end %>
+  </p>
+
+  <% if gallery.names.any? %>
+    <%= pagination page: gallery.page, pages: gallery.pages, url: page_url, label: "Páginas de ícones" %>
+    <%= icon_gallery_grid(gallery.names, variant: gallery.variant) %>
+    <%= pagination page: gallery.page, pages: gallery.pages, url: page_url, label: "Páginas de ícones" %>
+  <% else %>
+    <%= empty_state "Nenhum ícone com esse nome." %>
+  <% end %>
 </div>

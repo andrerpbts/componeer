@@ -1,13 +1,13 @@
 <%= page_header(title: @page.title, subtitle: @page.lead) %>
 <article class="doc-article">
   <% if @page.helper %>
-    <pre class="doc-code doc-signature"><code><%= @page.helper %></code></pre>
+    <%= code_block @page.helper, language: :ruby, title: "Helper", class: "doc-signature" %>
   <% end %>
   <% @page.sections.each do |section| %>
     <section class="doc-section">
       <% if section.heading %><h2><%= section.heading %></h2><% end %>
       <%= doc_text(section.text) if section.text %>
-      <% if section.code %><pre class="doc-code"><code><%= section.code.strip %></code></pre><% end %>
+      <%= code_block section.code, language: section.language if section.code %>
       <%= doc_example(section.example) if section.example %>
       <%= render "componeer/docs/icon_gallery" if section.gallery == "icons" %>
       <% if section.screen %>
@@ -18,7 +18,7 @@
           <iframe src="<%= componeer.screen_path(section.screen) %>" title="<%= @page.title %>" loading="lazy"></iframe>
           <details class="doc-source">
             <summary>Ver o ERB desta tela</summary>
-            <pre class="doc-code"><code><%= screen_source(section.screen) %></code></pre>
+            <%= code_block screen_source(section.screen), language: :erb, title: "ERB" %>
           </details>
         </div>
       <% end %>

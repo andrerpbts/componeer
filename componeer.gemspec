@@ -25,5 +25,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency "actionpack", ">= 8.0"
   spec.add_dependency "actionview", ">= 8.0"
   spec.add_dependency "railties", ">= 8.0"
+  spec.add_dependency "rouge", ">= 4.0"
   spec.add_dependency "view_component", "~> 4.0"
 end

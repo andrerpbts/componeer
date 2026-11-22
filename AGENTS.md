@@ -53,7 +53,8 @@ blocks pushes); install it from git.
 | Tests      | RSpec + ViewComponent test helpers + Capybara matchers; dummy app in `spec/dummy` |
 | Lint       | RuboCop (rails-omakase + rubocop-rspec) |
 
-Do not add runtime dependencies (Tailwind, Node build tooling, React…) without the owner's approval.
+Runtime dependencies: Rails, ViewComponent and Rouge (syntax highlighting for `code_block`). Do not
+add others (Tailwind, Node build tooling, React…) without the owner's approval.
 
 ## 4. Layout of the code
 

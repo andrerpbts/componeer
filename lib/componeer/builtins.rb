@@ -26,6 +26,8 @@ module Componeer
     multi_select: "Componeer::MultiSelectComponent",
     period_picker: "Componeer::PeriodPickerComponent",
     table: "Componeer::TableComponent",
+    code_block: "Componeer::CodeBlockComponent",
+    pagination: "Componeer::PaginationComponent",
     drawer: "Componeer::DrawerComponent",
     modal: "Componeer::ModalComponent",
     toast: "Componeer::ToastComponent",

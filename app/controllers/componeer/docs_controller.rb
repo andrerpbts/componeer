@@ -3,7 +3,7 @@ module Componeer
     layout "componeer/docs"
 
     def show
-      @page = DocPage.find(params[:page]) or raise ActionController::RoutingError, "No doc page #{params[:page]}"
+      @page = DocPage.find(params[:slug]) or raise ActionController::RoutingError, "No doc page #{params[:slug]}"
     end
 
     # A whole example screen, outside the documentation shell.

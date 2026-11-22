@@ -88,7 +88,7 @@ bin/rails server   # then open http://localhost:3000/componeer
 | Status | `status_dot`, `status_pill`, `counter`, `badge`, `callout` |
 | Layout | `app_shell`, `sidebar`, `nav_item`, `env_banner`, `page_header`, `tabs`, `card`, `stack`, `cluster` |
 | Pickers | `multi_select`, `period_picker`, `popover` |
-| Data | `table`, `empty_state` |
+| Data | `table`, `empty_state`, `pagination`, `code_block` (syntax highlighting with Rouge) |
 | Overlays | `drawer`, `modal`, `toast`, `toasts` |
 
 ## Your own components

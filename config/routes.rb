@@ -1,5 +1,5 @@
 Componeer::Engine.routes.draw do
-  root "docs#show", page: "getting_started"
+  root "docs#show", slug: "getting_started"
   get "screens/:screen", to: "docs#screen", as: :screen, constraints: { screen: /[a-z_]+/ }
-  get ":page", to: "docs#show", as: :doc, constraints: { page: /[a-z_]+/ }
+  get ":slug", to: "docs#show", as: :doc, constraints: { slug: /[a-z_]+/ }
 end

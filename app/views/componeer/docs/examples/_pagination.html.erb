@@ -1,0 +1,4 @@
+<%= stack(gap: "12px") do %>
+  <%= pagination page: 1, pages: 3, url: ->(page) { "?page=#{page}" } %>
+  <%= pagination page: 7, pages: 24, url: ->(page) { "?page=#{page}" } %>
+<% end %>

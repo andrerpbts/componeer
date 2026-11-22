@@ -13,11 +13,13 @@
         Trail UI itself (tokens, rules, previews) lives in its design system artifact. This gem is its Rails implementation: the CSS here is generated from it, and component changes start there.
     - heading: Install
       text: Componeer is not on RubyGems.org yet. Add it from git and bundle.
+      language: ruby
       code: |
         # Gemfile
         gem "componeer", git: "https://github.com/andrerpbts/componeer.git"
     - heading: Stylesheets
       text: Load the tokens and the component styles in your layout, and put `tr-root` on the body for the base font and colours.
+      language: erb
       code: |
         <head>
           <%= componeer_stylesheets %>
@@ -28,6 +30,7 @@
         Popovers, the multi-select, the period picker, row links and dismissable overlays use Stimulus. With importmap-rails and stimulus-rails, the engine pins its controllers for you; register them once.
 
         Without importmap, copy `app/javascript/componeer` into your bundle and import it the same way.
+      language: javascript
       code: |
         // app/javascript/controllers/index.js
         import { application } from "controllers/application"
@@ -35,6 +38,7 @@
         registerComponeer(application)
     - heading: Documentation
       text: Mount the engine to browse these pages inside your own app, with your own data and layout around them. Mount it only where you want it, for example in development.
+      language: ruby
       code: |
         # config/routes.rb
         mount Componeer::Engine => "/componeer" if Rails.env.development?
@@ -66,6 +70,7 @@
         Build app-specific blocks the same way: a ViewComponent (subclassing `Componeer::Component` gives you `html_attributes` and `icon_svg`) whose template uses Componeer helpers. Register it in an initializer and call it like any built-in.
 
         A name that would override an Action View helper (`select`, `label`, `search_field`…) is refused at boot.
+      language: ruby
       code: |
         # app/components/quest_card_component.rb
         class QuestCardComponent < Componeer::Component
@@ -73,22 +78,26 @@
             @quest = quest
           end
         end
-
+    - language: erb
+      code: |
         <%# app/components/quest_card_component.html.erb %>
         <%= card(title: @quest.title, subtitle: @quest.project.name) do |c| %>
           <% c.with_action { status_pill @quest.status_label, status: :accent } %>
           <%= content %>
         <% end %>
-
+    - language: ruby
+      code: |
         # config/initializers/componeer.rb
         Componeer.register :quest_card, "QuestCardComponent"
-
+    - language: erb
+      code: |
         <%# any view %>
         <%= quest_card(quest: @quest) do %>
           <%= render @quest.missions %>
         <% end %>
     - heading: Extra icons
       text: Point Componeer at folders of your own SVGs. They are looked up before the bundled Tabler set, so `icon "logo"` finds `app/assets/icons/logo.svg`.
+      language: ruby
       code: |
         Componeer.configure do |config|
           config.icon_paths << Rails.root.join("app/assets/icons")
@@ -314,6 +323,29 @@
   helper: empty_state(text = nil)
   sections:
     - example: empty_state
+
+- slug: pagination
+  title: Pagination
+  group: Data
+  lead: Page links for long lists.
+  helper: "pagination(page:, pages:, url:, label: \"Paginação\")"
+  sections:
+    - text: "`url` is a lambda from a page number to its URL, so it works with any pagination source (`pagy`, `limit`/`offset`, your own). It shows the first and last pages and two pages around the current one; with a single page it renders nothing."
+      example: pagination
+
+- slug: code_block
+  title: Code block
+  group: Data
+  lead: Source code with syntax colours and a copy button.
+  helper: "code_block(source = nil, language: :plaintext, title: nil, copy: true, **html)"
+  sections:
+    - text: |
+        Highlighting runs on the server with Rouge, so it works without JavaScript and supports 200+ languages (`ruby`, `erb`, `javascript`, `html`, `css`, `json`, `yaml`, `sql`, `shell`…). The colours are Trail UI's `code-*` tokens. Pass the source as the first argument or as the block's text; the title defaults to the language name.
+      example: code_block
+  options:
+    - [language, "Rouge lexer name or alias; unknown names fall back to plain text"]
+    - [title, "Text on the bar above the code (a file name, for example)"]
+    - [copy, "Show the copy button (default true)"]
 
 - slug: drawer
   title: Drawer

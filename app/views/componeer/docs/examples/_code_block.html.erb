@@ -1,0 +1,16 @@
+<%= stack(gap: "12px") do %>
+  <%= code_block <<~RUBY, language: :ruby, title: "app/models/quest.rb" %>
+    class Quest < ApplicationRecord
+      belongs_to :project
+      has_many :missions, dependent: :destroy
+
+      scope :active, -> { where(completed_at: nil, abandoned_at: nil) }
+
+      def progress
+        missions.completed.count.fdiv(missions.count) # 0.0..1.0
+      end
+    end
+  RUBY
+  <%= code_block %({ "quest": "Lançar o canal", "missions": 13, "continuous": false }), language: :json %>
+  <%= code_block "bin/rails server -p 3000", language: :shell, copy: false %>
+<% end %>

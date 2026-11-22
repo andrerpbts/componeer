@@ -225,4 +225,24 @@ a.tr-tab { text-decoration: none; }
 .tr-switch-field > input:focus-visible + .tr-switch { outline: 2px solid rgba(11, 92, 138, 0.45); outline-offset: 1px; }
 .tr-switch-field > input:disabled + .tr-switch { background: var(--line); cursor: not-allowed; }
 .tr-filters > .tr-search { flex: 1 1 240px; }
-.tr-sidebar__heading { margin: 14px 10px 4px; font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); }
+.tr-sidebar__heading { margin: 14px 2px 4px; padding: 14px 8px 0; border-top: 1px solid var(--line); font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); }
+.tr-sidebar__brand + .tr-sidebar__heading { margin-top: 0; padding-top: 0; border-top: 0; }
+
+/* Code block (intentional addition: source code with syntax colours, used by Componeer docs) */
+.tr-code { margin: 0; min-width: 0; overflow: hidden; border: 1px solid var(--line-soft); border-radius: var(--radius); background: var(--code-bg); }
+.tr-code__bar { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 34px; padding: 2px 4px 2px 12px; border-bottom: 1px solid var(--line-soft); font-size: 12px; color: var(--muted); }
+.tr-code__bar .tr-btn { height: 26px; color: var(--muted-2); }
+.tr-code__pre { margin: 0; padding: 12px 14px; overflow-x: auto; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; color: var(--code-ink); tab-size: 2; user-select: text; }
+.tr-code :is(.k, .kd, .kn, .kp, .kr, .kv, .ow, .nb, .bp) { color: var(--code-keyword); }
+.tr-code :is(.s, .s1, .s2, .sb, .sc, .sd, .se, .sh, .sx, .sr, .ss, .dl, .si) { color: var(--code-string); }
+.tr-code :is(.c, .c1, .cm, .cs, .ch, .cpf) { color: var(--code-comment); font-style: italic; }
+.tr-code :is(.m, .mi, .mf, .mh, .mo, .mb, .il, .kc, .no, .kt) { color: var(--code-number); }
+.tr-code :is(.nf, .fm, .nc, .nn, .nt, .cp, .ne, .nd) { color: var(--code-name); }
+.tr-code :is(.na, .vi, .vc, .vg, .nv, .py, .nl) { color: var(--code-attr); }
+.tr-code .err { color: var(--bad-text); }
+
+/* Pagination (intentional addition: page links for long lists) */
+.tr-pagination { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; }
+.tr-pagination a[aria-current="page"] { background: var(--accent); border-color: var(--accent-dark); color: var(--on-accent); font-weight: 600; }
+.tr-pagination [aria-disabled="true"] { opacity: 0.45; cursor: default; }
+.tr-pagination__gap { padding: 0 4px; color: var(--muted); }
