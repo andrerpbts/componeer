@@ -36,6 +36,8 @@ blocks pushes); install it from git.
   - `components.css` must stay byte-identical to the artifact's `bundle.css`.
   - `tokens.css` is the artifact's `tokens.css` **without** the type-style classes at its end
     (`.title`, `.section`, `.body`…): global class names like those would collide with host apps.
+  - `config/tokens.json` is a copy of the artifact's `project/tokens.json`; the Theming docs page
+    reads the usage notes from it.
 - A component that does not exist in Trail UI yet (Card was one) is added to the artifact as an
   "Intentional addition" with a preview and README, in the same change.
 - Icons are the whole Tabler set (outline and filled), pinned to `@tabler/icons@3.19.0`, vendored in

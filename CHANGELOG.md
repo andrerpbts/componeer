@@ -13,3 +13,4 @@
   the docs use it for every example, signature and snippet.
 - `pagination`: page links for long lists; the icon gallery is paged by letter and by 240 icons.
 - Docs use the full width; sidebar groups are divided by a line.
+- Componeer logo; Theming guide with live themes and every Trail UI variable.

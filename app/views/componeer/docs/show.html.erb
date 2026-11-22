@@ -10,6 +10,7 @@
       <%= code_block section.code, language: section.language if section.code %>
       <%= doc_example(section.example) if section.example %>
       <%= render "componeer/docs/icon_gallery" if section.gallery == "icons" %>
+      <%= render "componeer/docs/token_table" if section.gallery == "tokens" %>
       <% if section.screen %>
         <div class="doc-screen">
           <%= cluster do %>

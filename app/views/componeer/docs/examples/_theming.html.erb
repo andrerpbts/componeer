@@ -1,0 +1,30 @@
+<% themes = {
+  "Trail UI (padrão)" => "",
+  "Marca roxa" => "--accent: #6d28d9; --accent-dark: #5b21b6; --accent-soft: #f3effd; --accent-wash: #f7f4fe; --accent-chip: #ebe4fc; --check: #7c3aed;",
+  "Verde, cantos retos" => "--accent: #116b47; --accent-dark: #0d5739; --accent-soft: #e9f5ef; --accent-wash: #f1f9f5; --accent-chip: #dcefe5; --check: #15803d; --radius: 3px; --radius-control: 3px; --radius-lg: 4px; --radius-xl: 6px;"
+} %>
+<div class="doc-themes">
+  <% themes.each do |name, overrides| %>
+    <div style="<%= overrides %>">
+      <%= card(title: name, subtitle: "Mesmos helpers, outras variáveis") do |c| %>
+        <% c.with_action { status_pill "Ativa", status: :accent } %>
+        <%= stack(gap: "12px") do %>
+          <%= tabs(label: "Situação — #{name}") do |t| %>
+            <% t.with_tab "Ativas", href: "#ativas", count: 7, selected: true %>
+            <% t.with_tab "Concluídas", href: "#concluidas", count: 2 %>
+          <% end %>
+          <%= segmented(label: "Visão — #{name}") do |views| %>
+            <% views.with_item "Dia", href: "#dia", pressed: true %>
+            <% views.with_item "Semana", href: "#semana" %>
+          <% end %>
+          <label class="tr-cluster"><%= check_box_tag "done", "1", true, class: "tr-check", id: nil %> Missão concluída</label>
+          <%= callout "Nova versão disponível.", icon: "refresh" %>
+        <% end %>
+        <% c.with_footer do %>
+          <%= button "Cancelar", size: :sm %>
+          <%= button "Salvar", size: :sm, variant: :primary, icon: "check" %>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

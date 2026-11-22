@@ -4,13 +4,17 @@
     <title><%= [ @page&.title, "Componeer" ].compact.join(" · ") %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
+    <%= favicon_link_tag "componeer/logo-mark.svg", type: "image/svg+xml" %>
     <%= componeer_stylesheets %>
     <%= stylesheet_link_tag "componeer/docs" %>
     <%= javascript_importmap_tags "componeer/docs" if respond_to?(:javascript_importmap_tags) %>
   </head>
   <body class="tr-root">
     <%= app_shell do |shell| %>
-      <% shell.with_sidebar(brand: "Componeer", brand_href: componeer.root_path, label: "Documentation") do |sidebar| %>
+      <% shell.with_sidebar(brand_href: componeer.root_path, label: "Documentation") do |sidebar| %>
+        <% sidebar.with_brand_logo do %>
+          <span class="tr-cluster" style="gap: 8px"><%= image_tag "componeer/logo-mark.svg", alt: "", width: 22, height: 22 %>Componeer</span>
+        <% end %>
         <% Componeer::DocPage.grouped.each do |group, pages| %>
           <% sidebar.with_heading(group) %>
           <% pages.each do |page| %>

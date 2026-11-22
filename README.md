@@ -1,6 +1,12 @@
+<p><img src="app/assets/images/componeer/logo-mark.svg" alt="" width="56" height="56"></p>
+
 # Componeer
 
 Trail UI components for Rails views, written as helpers that nest.
+
+![A dashboard built only with Componeer helpers: sidebar, page header with view switch and project filter, warning callout, cards with tables and status pills](docs/screenshot.png)
+
+<sub>The dashboard from the docs' example screens (fake data). Run the docs to see the other screens and every component.</sub>
 
 ```erb
 <%= page_header(title: "Quests", subtitle: "7 quests ativas em 5 projetos") do |header| %>
@@ -90,6 +96,22 @@ bin/rails server   # then open http://localhost:3000/componeer
 | Pickers | `multi_select`, `period_picker`, `popover` |
 | Data | `table`, `empty_state`, `pagination`, `code_block` (syntax highlighting with Rouge) |
 | Overlays | `drawer`, `modal`, `toast`, `toasts` |
+
+## Theming
+
+Every colour, radius, spacing step and control size is a CSS variable. Redefine the ones you want in a
+stylesheet loaded after `componeer_stylesheets`:
+
+```css
+:root {
+  --accent: #6d28d9;
+  --accent-dark: #5b21b6;
+  --accent-soft: #f3effd;
+  --radius: 6px;
+}
+```
+
+The docs' Theming page shows the result live and lists every variable with what it is used for.
 
 ## Your own components
 

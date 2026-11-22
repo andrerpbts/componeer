@@ -1,0 +1,15 @@
+<% Componeer::DesignTokens.grouped.each do |label, tokens| %>
+  <h3 style="margin-top: 12px"><%= label %> <%= counter tokens.size %></h3>
+  <%= card(flush: true) do %>
+    <%= table(rows: tokens) do |t| %>
+      <% t.column("Variable", width: "220px") do |token| %>
+        <span class="tr-cluster" style="flex-wrap: nowrap; gap: 10px">
+          <% if token.color? %><span class="doc-swatch" style="background: var(<%= token.css_variable %>)"></span><% end %>
+          <code class="tr-mono"><%= token.css_variable %></code>
+        </span>
+      <% end %>
+      <% t.column("Default", width: "240px") { |token| tag.code(token.value, class: "tr-mono tr-muted") } %>
+      <% t.column("Used for") { |token| tag.span(token.usage, style: "white-space: normal") } %>
+    <% end %>
+  <% end %>
+<% end %>

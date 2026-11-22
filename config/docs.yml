@@ -121,6 +121,45 @@
       text: A destructive action confirmed in a modal over the list. Tabs with counts, a grouped table with progress and late markers, and the modal that names exactly what will happen.
       screen: quests
 
+- slug: theming
+  title: Theming
+  group: Guides
+  lead: Change Trail UI's variables to give an app its own colours, corners and density.
+  sections:
+    - text: |
+        Every colour, radius, spacing step and control size is a CSS custom property defined by `componeer/tokens.css`, and every component reads them with `var(--…)`. To theme an app, redefine the variables you want in a stylesheet loaded after Componeer's. Nothing else changes: the same helpers render in the new look.
+    - heading: 1. Create a theme stylesheet
+      text: Redefine only what changes. For a new brand colour, change the accent family together so hovers, selected rows and open triggers stay coherent.
+      language: css
+      code: |
+        /* app/assets/stylesheets/theme.css */
+        :root {
+          --accent: #6d28d9;        /* primary buttons, links, current tab */
+          --accent-dark: #5b21b6;   /* primary border and hover */
+          --accent-soft: #f3effd;   /* selected rows, current preset */
+          --accent-wash: #f7f4fe;   /* open trigger background */
+          --accent-chip: #ebe4fc;   /* count chip on the active tab */
+          --check: #7c3aed;         /* checked checkboxes and radios */
+
+          --radius: 6px;            /* buttons, inputs */
+          --radius-xl: 10px;        /* popovers, dialogs */
+        }
+    - heading: 2. Load it after Componeer
+      language: erb
+      code: |
+        <%# app/views/layouts/application.html.erb %>
+        <%= componeer_stylesheets %>
+        <%= stylesheet_link_tag "theme" %>
+    - heading: Result
+      text: |
+        The same block rendered three times; only the variables on its wrapper change. A theme can also be scoped to part of a page by setting the variables on an element instead of `:root`.
+
+        Keep contrast when you pick colours: text on `accent` is white (`on-accent`), so the accent needs at least 4.5:1 against white, and `accent` text on `accent-soft` needs the same. Variables defined as another variable (`--toast: var(--ink)`) are resolved where they are declared, so override those too when you change their source at a lower level than `:root`.
+      example: theming
+    - heading: All variables
+      text: Defaults are Trail UI's light theme. Changes to the defaults themselves belong in the Trail UI design system, then in a new Componeer release.
+      gallery: tokens
+
 - slug: foundations
   title: Foundations
   group: Guides

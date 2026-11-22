@@ -27,3 +27,5 @@ html, body { height: 100%; margin: 0; }
 .doc-screen { display: flex; flex-direction: column; gap: 8px; }
 .doc-screen iframe { width: 100%; height: 760px; border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--surface); }
 .doc-source summary { cursor: pointer; color: var(--accent); font-weight: 500; padding: 6px 0; }
+.doc-themes { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+.doc-swatch { flex: none; width: 18px; height: 18px; border-radius: var(--radius-sm); border: 1px solid var(--line); }
