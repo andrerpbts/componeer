@@ -124,6 +124,13 @@ Componeer.register :quest_card, "QuestCardComponent"
 Componeer.configure { |config| config.icon_paths << Rails.root.join("app/assets/icons") }
 ```
 
+## Deploying the docs
+
+The repository root has a `config.ru` that serves the documentation app, so it can run on any Ruby
+host. `render.yaml` describes it for [Render](https://render.com): build with `bin/render-build`
+(gems + asset precompile), start with `bundle exec puma -b tcp://0.0.0.0:$PORT config.ru`, and set
+`RAILS_ENV=production` plus a generated `SECRET_KEY_BASE`.
+
 ## Development
 
 ```sh

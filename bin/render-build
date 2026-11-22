@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# Render build: install gems and precompile the documentation app's assets.
+set -o errexit
+
+bundle install
+cd spec/dummy && bundle exec bin/rails assets:precompile
