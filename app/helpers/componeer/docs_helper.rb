@@ -7,13 +7,25 @@ module Componeer
       File.read(SCREENS.join("_#{name}.html.erb")).strip
     end
 
-    # Renders an example partial and shows its ERB source next to it.
+    # Renders an example partial with Preview and Source tabs.
     def doc_example(name)
-      source = File.read(EXAMPLES.join("_#{name}.html.erb"))
+      doc_tabs("example-#{name.dasherize}",
+        preview: tag.div(render("componeer/docs/examples/#{name}"), class: "doc-example__preview tr-root"),
+        source: File.read(EXAMPLES.join("_#{name}.html.erb")))
+    end
+
+    def doc_tabs(id, preview:, source:)
       tag.figure class: "doc-example" do
         safe_join [
-          tag.div(render("componeer/docs/examples/#{name}"), class: "doc-example__preview tr-root"),
-          code_block(source, language: :erb, title: "ERB", class: "doc-example__code")
+          render(Componeer::TabsComponent.new(label: "Example", class: "doc-example__tabs")) do |tabs|
+            tabs.with_tab "Preview", selected: true, panel: "#{id}-preview"
+            tabs.with_tab "Source", panel: "#{id}-source"
+            nil
+          end,
+          render(Componeer::TabPanelComponent.new(id: "#{id}-preview", selected: true)) { preview },
+          render(Componeer::TabPanelComponent.new(id: "#{id}-source", class: "doc-example__source")) do
+            code_block(source.strip, language: :erb, title: "ERB")
+          end
         ]
       end
     end
