@@ -1,0 +1,52 @@
+<% quests = [
+  { title: "Lançar o canal até março", project: "Canal Exemplo", color: "#0d9488", deadline: "31/03/2027", done: 5, total: 13, next: "Revisar roteiro do vídeo 2", late: true },
+  { title: "Publicar 12 vídeos até fevereiro", project: "Canal Exemplo", color: "#0d9488", deadline: "28/02/2027", done: 1, total: 4, next: "Roteirizar vídeo 1", late: false },
+  { title: "Fechar 3 clientes novos no trimestre", project: "Produto Exemplo", color: "#4f46e5", deadline: "31/12/2026", done: 2, total: 5, next: "Follow-up com a Demo Consultoria", late: false },
+  { title: "Manter o relacionamento com clientes", project: "Produto Exemplo", color: "#4f46e5", deadline: nil, done: 1, total: 2, next: "Ligar para a Empresa Exemplo", late: false },
+  { title: "Faturar o cliente todo mês", project: "Cliente Fictício", color: "#0284c7", deadline: nil, done: 1, total: 3, next: "Emitir invoice de novembro", late: false }
+] %>
+<%= app_shell do |shell| %>
+  <% shell.with_sidebar(brand: "Workflows", brand_href: "#") do |sidebar| %>
+    <% sidebar.with_item "Agenda", href: "#agenda", icon: "calendar", current: false %>
+    <% sidebar.with_item "Quests", href: "#quests", icon: "target", current: true %>
+  <% end %>
+
+  <%= page_header(title: "Quests", subtitle: "7 quests ativas em 3 projetos") do |header| %>
+    <% header.with_action { button "Nova quest", variant: :primary, icon: "plus" } %>
+    <% header.with_filters do %>
+      <%= search_input placeholder: "Buscar quest ou missão" %>
+      <%= multi_select name: :projects, label: "Projetos", icon: "folder", align: :right,
+            all_label: "Todos os projetos", none_label: "Nenhum projeto", many_label: "%{count} projetos",
+            options: quests.uniq { |q| q[:project] }.map { |q| { value: q[:project], label: q[:project], color: q[:color] } } %>
+    <% end %>
+    <% header.with_tabs(label: "Situação da quest") do |tabs| %>
+      <% tabs.with_tab "Ativas", href: "#ativas", count: 7, selected: true %>
+      <% tabs.with_tab "Concluídas", href: "#concluidas", count: 2 %>
+      <% tabs.with_tab "Abandonadas", href: "#abandonadas", count: 1 %>
+    <% end %>
+  <% end %>
+
+  <%= table(rows: quests, min_width: "820px", group_by: ->(q) { q[:project] }, row_href: ->(_) { "#quest" }) do |t| %>
+    <% t.column("Quest") { |q| tag.span(q[:title], style: "font-weight: 500") } %>
+    <% t.column("Prazo") { |q| q[:deadline] || tag.span(safe_join([ icon("repeat", style: "vertical-align: -3px; margin-right: 4px"), "Contínua" ]), class: "tr-muted") } %>
+    <% t.column("Progresso", width: "200px") do |q| %>
+      <span class="tr-cluster" style="flex-wrap: nowrap; gap: 10px">
+        <span aria-hidden="true" style="flex: 1; height: 4px; border-radius: 2px; background: var(--line); overflow: hidden"><span style="display: block; height: 100%; width: <%= (q[:done] * 100 / q[:total]) %>%; background: var(--accent)"></span></span>
+        <span class="tr-num tr-muted"><%= q[:done] %> de <%= q[:total] %></span>
+      </span>
+    <% end %>
+    <% t.column("Próxima missão") do |q| %>
+      <%= q[:next] %> <%= status_pill "Atrasada", status: :bad, dot: false, style: "height: 22px; margin-left: 6px" if q[:late] %>
+    <% end %>
+  <% end %>
+
+  <%= modal(title: "Abandonar esta quest?", subtitle: "“Publicar 12 vídeos até fevereiro” sai das quests ativas. As 3 missões pendentes saem da agenda.", close_href: "#") do |m| %>
+    <%= field "Motivo (opcional)" do %>
+      <%= text_area_tag :reason, nil, class: "tr-input", rows: 3, style: "height: auto; padding: 8px 10px", placeholder: "Ex.: mudança de prioridade" %>
+    <% end %>
+    <% m.with_footer do %>
+      <%= button "Cancelar" %>
+      <%= button "Abandonar quest", variant: :danger_fill %>
+    <% end %>
+  <% end %>
+<% end %>

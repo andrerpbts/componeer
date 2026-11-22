@@ -1,0 +1,61 @@
+<%= app_shell do |shell| %>
+  <% shell.with_banner "SANDBOX · dados fictícios, restaurados a cada abertura", kind: :sandbox %>
+  <% shell.with_sidebar(brand: "Emissor Exemplo", brand_href: "#") do |sidebar| %>
+    <% sidebar.with_item "Notas", href: "#notas", icon: "file-text", current: false %>
+    <% sidebar.with_item "Certificados", href: "#certificados", icon: "lock", current: false %>
+    <% sidebar.with_item "Configurações", href: "#configuracoes", icon: "settings", current: true %>
+  <% end %>
+
+  <%= page_header(title: "Configurações", subtitle: "Valem para todas as empresas deste computador") %>
+
+  <form action="#" style="padding: 20px; max-width: 760px">
+    <%= stack do %>
+      <%= callout(variant: :warning) do |c| %>
+        O certificado da Demo Consultoria vence em 12 dias.
+        <% c.with_action { button "Trocar certificado…", size: :sm } %>
+      <% end %>
+
+      <%= card(title: "Empresa padrão", subtitle: "Usada quando você emite sem escolher outra") do %>
+        <%= stack(gap: "14px") do %>
+          <%= field "Razão social" do %><%= text_field_tag :name, "Empresa Exemplo Ltda", class: "tr-input" %><% end %>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px">
+            <%= field "CNPJ" do %><%= text_field_tag :doc, "12.345.678/0001-90", class: "tr-input", readonly: true %><% end %>
+            <%= field "Município", hint: "Define a prefeitura que recebe a nota." do %>
+              <%= select_tag :city, options_for_select([ "São Paulo/SP", "Campinas/SP", "Curitiba/PR" ]), class: "tr-select" %>
+            <% end %>
+          </div>
+          <%= field "E-mail para cópia das notas", error: "Informe um e-mail válido, como financeiro@exemplo.com." do %>
+            <%= email_field_tag :email, "financeiro@", class: "tr-input", aria: { invalid: true } %>
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <%= card(title: "Sincronização") do %>
+        <%= stack(gap: "14px") do %>
+          <%= toggle_switch "settings[auto_sync]", label: "Sincronizar automaticamente a cada hora", checked: true %>
+          <%= toggle_switch "settings[notify]", label: "Avisar quando chegar nota recebida" %>
+          <%= field "Ambiente" do %>
+            <%= cluster(gap: "20px") do %>
+              <label class="tr-cluster"><%= radio_button_tag :environment, "production", true, class: "tr-check" %> Produção</label>
+              <label class="tr-cluster"><%= radio_button_tag :environment, "homolog", false, class: "tr-check" %> Homologação</label>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <%= card(title: "Zona de risco") do |c| %>
+        <% c.with_footer { button "Remover dados locais…", variant: :danger, size: :sm, icon: "trash" } %>
+        <p class="tr-muted">Apaga as notas baixadas deste computador. As notas continuam no portal nacional.</p>
+      <% end %>
+
+      <%= cluster(style: "justify-content: flex-end") do %>
+        <%= button "Cancelar" %>
+        <%= button "Salvar configurações", variant: :primary, type: "submit" %>
+      <% end %>
+    <% end %>
+  </form>
+
+  <%= toasts do %>
+    <%= toast "Configurações salvas.", dismiss_after: 0 %>
+  <% end %>
+<% end %>

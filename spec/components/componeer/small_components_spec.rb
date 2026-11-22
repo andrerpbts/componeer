@@ -8,11 +8,23 @@ RSpec.describe "Small components", type: :component do
       it { expect(page).to have_css("svg.tr-icon[width='20'][aria-hidden=true]") }
     end
 
+    context "when filled" do
+      before { render_inline(described_class.new("star", variant: :filled)) }
+
+      it { expect(page).to have_css("svg.tr-icon[fill=currentColor]:not([stroke])") }
+    end
+
     context "with a label" do
       before { render_inline(described_class.new("alert-triangle", label: "Atenção")) }
 
       it { expect(page).to have_css("svg[role=img][aria-label='Atenção']") }
     end
+  end
+
+  describe Componeer::StatusDotComponent do
+    before { render_inline(described_class.new(color: "#0d9488", style: "margin-right: 7px")) }
+
+    it { expect(page).to have_css(".tr-dot[style='background: #0d9488; margin-right: 7px']", visible: :all) }
   end
 
   describe Componeer::StatusPillComponent do

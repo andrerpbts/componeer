@@ -108,16 +108,52 @@
 
         With Tailwind in the same app, keep Tailwind for layout if you like, but take colours, type, radii and component looks from Componeer.
 
+- slug: screen_list
+  title: List with detail
+  group: Screens
+  lead: "The everyday screen: filter a list, open a record beside it."
+  sections:
+    - text: App shell with a test-environment banner, a page header with actions, search, period and company filters and tabs, a table grouped by month, and the drawer of the current row.
+      screen: notes
+
+- slug: screen_dashboard
+  title: Dashboard
+  group: Screens
+  lead: Cards that answer "what now?" at a glance.
+  sections:
+    - text: A Day / Week / Month switch in the header, a warning callout, cards holding flush tables and a side card. Status colours only where something needs attention.
+      screen: agenda
+
+- slug: screen_form
+  title: Settings form
+  group: Screens
+  lead: Fields grouped in cards, one primary action at the end.
+  sections:
+    - text: Text, select, read-only and invalid fields, switches and radios, a destructive zone, a warning with its action, and the toast that confirms the save.
+      screen: settings
+
+- slug: screen_confirmation
+  title: List with confirmation
+  group: Screens
+  lead: A destructive action confirmed in a modal over the list.
+  sections:
+    - text: Tabs with counts, a grouped table with progress and late markers, and the modal that names exactly what will happen.
+      screen: quests
+
 - slug: icon
   title: Icon
   group: Foundations
-  lead: The whole Tabler outline set (3.19), inlined so icons take the text colour.
-  helper: "icon(name, size: 16, label: nil, **html)"
+  lead: The whole Tabler set (3.19, outline and filled), inlined so icons take the text colour.
+  helper: "icon(name, size: 16, variant: :outline, label: nil, **html)"
   sections:
     - text: Use the Tabler name (`file-text`, `alert-triangle`; underscores work too). Icons are decorative and hidden from screen readers unless you pass `label:`. Buttons take `icon:` directly.
       example: icons
+    - heading: All icons
+      text: Every Tabler icon ships with the gem, outline and filled. Search the set and click an icon to copy its helper call.
+      gallery: icons
   options:
-    - [name, "Tabler outline icon name, or the name of an SVG in a configured icon path."]
+    - [name, "Tabler icon name, or the name of an SVG in a configured icon path."]
+    - [variant, ":outline (default, stroked) or :filled (solid; fewer icons have it)."]
     - [size, "Pixels. 16 in controls, 14 for chevrons, 20 at most elsewhere."]
     - [label, "Accessible name; makes the icon role=img instead of hidden."]
 

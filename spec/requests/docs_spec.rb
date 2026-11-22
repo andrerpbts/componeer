@@ -17,6 +17,27 @@ RSpec.describe "Docs" do
     end
   end
 
+  Componeer::DocPage.screens.each do |screen|
+    describe "GET /componeer/screens/#{screen}" do
+      before { get "/componeer/screens/#{screen}" }
+
+      it { expect(response).to have_http_status(:ok) }
+      it { expect(response.body).to include("tr-shell") }
+    end
+  end
+
+  describe "GET /componeer/screens/missing" do
+    before { get "/componeer/screens/missing" }
+
+    it { expect(response).to have_http_status(:not_found) }
+  end
+
+  describe "GET /componeer/icon" do
+    before { get "/componeer/icon" }
+
+    it { expect(response.body.scan('class="doc-icon"').size).to eq(Componeer::Icons.names.size + Componeer::Icons.names(variant: :filled).size) }
+  end
+
   describe "GET /componeer/missing" do
     before { get "/componeer/missing" }
 

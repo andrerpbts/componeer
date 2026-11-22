@@ -5,5 +5,13 @@ module Componeer
     def show
       @page = DocPage.find(params[:page]) or raise ActionController::RoutingError, "No doc page #{params[:page]}"
     end
+
+    # A whole example screen, outside the documentation shell.
+    def screen
+      raise ActionController::RoutingError, "No screen #{params[:screen]}" unless DocPage.screens.include?(params[:screen])
+
+      @screen = params[:screen]
+      render layout: "componeer/screen"
+    end
   end
 end

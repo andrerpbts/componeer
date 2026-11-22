@@ -9,6 +9,19 @@
       <%= doc_text(section.text) if section.text %>
       <% if section.code %><pre class="doc-code"><code><%= section.code.strip %></code></pre><% end %>
       <%= doc_example(section.example) if section.example %>
+      <%= render "componeer/docs/icon_gallery" if section.gallery == "icons" %>
+      <% if section.screen %>
+        <div class="doc-screen">
+          <%= cluster do %>
+            <%= button "Abrir em tela cheia", href: componeer.screen_path(section.screen), icon: "external-link", target: "_blank" %>
+          <% end %>
+          <iframe src="<%= componeer.screen_path(section.screen) %>" title="<%= @page.title %>" loading="lazy"></iframe>
+          <details class="doc-source">
+            <summary>Ver o ERB desta tela</summary>
+            <pre class="doc-code"><code><%= screen_source(section.screen) %></code></pre>
+          </details>
+        </div>
+      <% end %>
     </section>
   <% end %>
   <% if @page.options.any? %>

@@ -18,6 +18,12 @@ RSpec.describe Componeer::TableComponent, type: :component do
     it { expect(page).to have_css("tr.tr-table__group", text: "Outubro") }
   end
 
+  context "when a column block returns a number" do
+    before { render_inline(described_class.new(rows:)) { |table| table.column("Número") { |row| row[:number] } } }
+
+    it { expect(page).to have_css("td", text: "2") }
+  end
+
   context "without rows" do
     before { render_inline(described_class.new(rows: [], empty: "Nenhuma nota.")) { |table| table.column("Número") { |row| row } } }
 

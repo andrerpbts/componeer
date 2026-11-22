@@ -1,0 +1,80 @@
+<% today = [
+  { title: "Revisar roteiro do vídeo 2", project: "Canal Exemplo", color: "#0d9488", quest: "Lançar o canal até março" },
+  { title: "Ligar para a Empresa Exemplo sobre o piloto", project: "Produto Exemplo", color: "#4f46e5", quest: "Manter o relacionamento com clientes" },
+  { title: "Emitir invoice de novembro", project: "Cliente Fictício", color: "#0284c7", quest: "Faturar o cliente todo mês" }
+] %>
+<% late = [
+  { title: "Enviar proposta revisada para a Demo Consultoria", project: "Produto Exemplo", color: "#4f46e5", days: 3 },
+  { title: "Gravar narração do vídeo 2", project: "Canal Exemplo", color: "#0d9488", days: 1 }
+] %>
+<% upcoming = { "Amanhã · sáb 21/11" => [ "Editar vídeo 2" ], "seg 23/11" => [ "Publicar landing do emissor", "Roteirizar vídeo 1 da série" ], "ter 24/11" => [ "Follow-up com a Demo Consultoria" ] } %>
+<%= app_shell do |shell| %>
+  <% shell.with_banner "DEVELOPMENT DATA — kept separate from live data" %>
+  <% shell.with_sidebar(brand: "Workflows", brand_href: "#") do |sidebar| %>
+    <% sidebar.with_item "Agenda", href: "#agenda", icon: "calendar", current: true %>
+    <% sidebar.with_item "Quests", href: "#quests", icon: "target", current: false %>
+    <% sidebar.with_heading "Negócios" %>
+    <% sidebar.with_item "Contatos", href: "#contatos", icon: "users", current: false %>
+    <% sidebar.with_item "Invoices", href: "#invoices", icon: "file-invoice", current: false %>
+  <% end %>
+
+  <%= page_header(title: "Agenda", subtitle: "Hoje é sexta, 20 de novembro de 2026") do |header| %>
+    <% header.with_action do %>
+      <%= segmented(label: "Visão") do |views| %>
+        <% views.with_item "Dia", href: "#dia", pressed: true %>
+        <% views.with_item "Semana", href: "#semana" %>
+        <% views.with_item "Mês", href: "#mes" %>
+      <% end %>
+    <% end %>
+    <% header.with_filters do %>
+      <%= cluster(gap: "4px") do %>
+        <%= icon_button "chevron-left", label: "Dia anterior", variant: :default %>
+        <%= button "Hoje" %>
+        <%= icon_button "chevron-right", label: "Próximo dia", variant: :default %>
+      <% end %>
+      <h2 style="flex: 1 1 200px; margin-left: 6px">Sexta, 20 de novembro</h2>
+      <%= multi_select name: :projects, label: "Projetos", icon: "folder", align: :right,
+            all_label: "Todos os projetos", none_label: "Nenhum projeto", many_label: "%{count} projetos",
+            options: [ { value: "produto", label: "Produto Exemplo", color: "#4f46e5" }, { value: "canal", label: "Canal Exemplo", color: "#0d9488" },
+                       { value: "cliente", label: "Cliente Fictício", color: "#0284c7" } ] %>
+    <% end %>
+  <% end %>
+
+  <div style="display: flex; flex-wrap: wrap; gap: 20px; padding: 20px; align-items: flex-start">
+    <%= stack(style: "flex: 999 1 520px; min-width: 0") do %>
+      <%= callout "2 missões atrasadas. Conclua ou reagende para limpar a agenda.", variant: :warning, icon: "alert-triangle" %>
+
+      <%= card(title: "Atrasadas", flush: true) do |c| %>
+        <% c.with_action { counter late.size } %>
+        <%= table(rows: late, row_href: ->(_) { "#missao" }) do |t| %>
+          <% t.column("", width: "44px") { |_| check_box_tag "done[]", "1", false, class: "tr-check", aria: { label: "Concluir missão" } } %>
+          <% t.column("Missão") { |m| tag.span(m[:title], style: "white-space: normal; color: var(--bad-text); font-weight: 600") } %>
+          <% t.column("Projeto") { |m| safe_join([ status_dot(color: m[:color], style: "margin-right: 7px"), m[:project] ]) } %>
+          <% t.column("", align: :right) { |m| status_pill "Atrasada há #{m[:days]} #{m[:days] == 1 ? 'dia' : 'dias'}", status: :bad, dot: false } %>
+        <% end %>
+      <% end %>
+
+      <%= card(title: "Para hoje", subtitle: "3 missões em 3 projetos", flush: true) do |c| %>
+        <% c.with_action { button "Nova missão", size: :sm, icon: "plus" } %>
+        <%= table(rows: today, row_href: ->(_) { "#missao" }) do |t| %>
+          <% t.column("", width: "44px") { |_| check_box_tag "done[]", "1", false, class: "tr-check", aria: { label: "Concluir missão" } } %>
+          <% t.column("Missão") { |m| tag.span(m[:title], style: "white-space: normal; font-weight: 500") } %>
+          <% t.column("Quest") { |m| tag.span(safe_join([ status_dot(color: m[:color], style: "margin-right: 7px"), m[:quest] ]), style: "white-space: normal") } %>
+        <% end %>
+      <% end %>
+    <% end %>
+
+    <%= card(title: "Próximos dias", style: "flex: 1 1 260px; min-width: 0") do %>
+      <%= stack(gap: "14px") do %>
+        <% upcoming.each do |day, missions| %>
+          <div>
+            <p style="font-weight: 600; margin-bottom: 4px"><%= day %></p>
+            <% missions.each do |mission| %>
+              <p class="tr-cluster" style="gap: 7px; min-height: 26px"><%= status_dot color: "#0d9488" %><%= mission %></p>
+            <% end %>
+          </div>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>

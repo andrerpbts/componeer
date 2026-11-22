@@ -7,6 +7,13 @@ RSpec.describe Componeer::Icons do
     it { expect(described_class.svg_body(:alert_triangle)).to include("<path") }
     it { expect { described_class.svg_body("nope-not-an-icon") }.to raise_error(described_class::Missing) }
     it { expect { described_class.svg_body("../secrets") }.to raise_error(described_class::Missing) }
+    it { expect(described_class.svg_body("star", variant: :filled)).to include("<path") }
+    it { expect { described_class.svg_body("search", variant: :bold) }.to raise_error(described_class::Missing) }
+  end
+
+  describe ".names" do
+    it { expect(described_class.names.size).to eq(4879) }
+    it { expect(described_class.names(variant: :filled).size).to eq(785) }
   end
 
   describe "custom icon paths" do

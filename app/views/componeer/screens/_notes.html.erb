@@ -1,0 +1,75 @@
+<% notes = [
+  { number: 1241, client: "Empresa Exemplo Ltda", doc: "12.345.678/0001-90", issued_on: "18/11/2026", value: "R$ 2.400,00", status: :ok, month: "Novembro de 2026" },
+  { number: 1240, client: "Fictícia Serviços ME", doc: "98.765.432/0001-10", issued_on: "12/11/2026", value: "R$ 820,50", status: :ok, month: "Novembro de 2026" },
+  { number: 1239, client: "Demo Consultoria", doc: "11.222.333/0001-44", issued_on: "07/11/2026", value: "R$ 3.200,00", status: :bad, month: "Novembro de 2026" },
+  { number: 1238, client: "Loja Modelo Eireli", doc: "22.333.444/0001-55", issued_on: "03/11/2026", value: "R$ 150,00", status: :ok, month: "Novembro de 2026" },
+  { number: 1231, client: "Empresa Exemplo Ltda", doc: "12.345.678/0001-90", issued_on: "28/10/2026", value: "R$ 2.400,00", status: :ok, month: "Outubro de 2026" },
+  { number: 1230, client: "Agência Fictícia", doc: "33.444.555/0001-66", issued_on: "21/10/2026", value: "R$ 5.780,00", status: :neutral, month: "Outubro de 2026" },
+  { number: 1229, client: "Fictícia Serviços ME", doc: "98.765.432/0001-10", issued_on: "14/10/2026", value: "R$ 820,50", status: :ok, month: "Outubro de 2026" }
+] %>
+<% labels = { ok: "Autorizada", bad: "Cancelada", neutral: "Substituída" } %>
+<%= app_shell do |shell| %>
+  <% shell.with_banner "HOMOLOGAÇÃO · ambiente de teste, notas sem validade jurídica" %>
+  <% shell.with_sidebar(brand: "Emissor Exemplo", brand_href: "#") do |sidebar| %>
+    <% sidebar.with_item "Notas", href: "#notas", icon: "file-text", current: true %>
+    <% sidebar.with_item "Totais", href: "#totais", icon: "chart-bar", current: false %>
+    <% sidebar.with_item "Certificados", href: "#certificados", icon: "lock", current: false %>
+    <% sidebar.with_item "Configurações", href: "#configuracoes", icon: "settings", current: false %>
+  <% end %>
+
+  <%= page_header(title: "Notas", subtitle: "Última sincronização: há 5 minutos · próxima: em 55 minutos") do |header| %>
+    <% header.with_action { button "Exportar filtro…", icon: "download" } %>
+    <% header.with_action { button "Sincronizar", variant: :primary, icon: "refresh" } %>
+    <% header.with_filters do %>
+      <%= search_input placeholder: "Buscar por número, chave, nome ou CNPJ" %>
+      <%= period_picker from: Date.new(2026, 10, 1), to: Date.new(2026, 11, 30), title: "Data de emissão",
+            presets: [ { label: "Este mês", from: Date.new(2026, 11, 1), to: Date.new(2026, 11, 30) },
+                       { label: "Últimos 2 meses", from: Date.new(2026, 10, 1), to: Date.new(2026, 11, 30) },
+                       { label: "Qualquer data", from: nil, to: nil } ] %>
+      <%= multi_select name: :companies, label: "Empresas", icon: "building", align: :right,
+            all_label: "Todas as empresas", none_label: "Nenhuma empresa", many_label: "%{count} empresas",
+            options: notes.uniq { |n| n[:doc] }.map { |n| { value: n[:doc], label: n[:client], sub: n[:doc], status: :ok } } %>
+    <% end %>
+    <% header.with_tabs(label: "Tipo de nota") do |tabs| %>
+      <% tabs.with_tab "Emitidas", href: "#emitidas", count: 1204, selected: true %>
+      <% tabs.with_tab "Recebidas", href: "#recebidas", count: 318 %>
+      <% tabs.with_action { button "Colunas", size: :sm, icon: "columns" } %>
+    <% end %>
+  <% end %>
+
+  <%= table(rows: notes, min_width: "760px", group_by: ->(n) { n[:month] },
+        row_href: ->(n) { "#nota-#{n[:number]}" }, current: ->(n) { n[:number] == 1240 }) do |t| %>
+    <% t.column("Número") { |n| n[:number] } %>
+    <% t.column("Tomador") do |n| %>
+      <%= n[:client] %> <span class="tr-muted">· <%= n[:doc] %></span>
+    <% end %>
+    <% t.column("Emissão") { |n| n[:issued_on] } %>
+    <% t.column("Valor", align: :right) { |n| n[:value] } %>
+    <% t.column("Situação") do |n| %>
+      <%= status_dot n[:status], style: "margin-right: 7px" %><%= labels[n[:status]] %>
+    <% end %>
+  <% end %>
+
+  <%= drawer(title: "Nota 1240", eyebrow: "Fictícia Serviços ME", close_href: "#") do |d| %>
+    <% d.with_meta do %>
+      <%= cluster do %><%= status_pill "Autorizada" %><span class="tr-muted">Emitida em 12/11/2026</span><% end %>
+    <% end %>
+    <% d.with_action { button "Abrir PDF", size: :sm, icon: "file-text" } %>
+    <% d.with_action { button "Baixar XML", size: :sm, icon: "download" } %>
+    <% d.with_action { button "Copiar chave", size: :sm, variant: :ghost, icon: "copy" } %>
+    <% d.with_section("Tomador") do %>
+      <p>Fictícia Serviços ME</p>
+      <p class="tr-muted">98.765.432/0001-10 · São Paulo/SP</p>
+    <% end %>
+    <% d.with_section("Serviço") do %>
+      <p>Desenvolvimento de software sob encomenda</p>
+      <p class="tr-muted">Código 1.04 · Competência 11/2026</p>
+    <% end %>
+    <% d.with_section("Valores") do %>
+      <%= table(rows: [ [ "Serviço", "R$ 820,50" ], [ "ISS (5%)", "R$ 41,03" ], [ "Líquido", "R$ 779,47" ] ]) do |t| %>
+        <% t.column("Item") { |row| row[0] } %>
+        <% t.column("Valor", align: :right) { |row| row[1] } %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

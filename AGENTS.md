@@ -38,8 +38,9 @@ blocks pushes); install it from git.
     (`.title`, `.section`, `.body`…): global class names like those would collide with host apps.
 - A component that does not exist in Trail UI yet (Card was one) is added to the artifact as an
   "Intentional addition" with a preview and README, in the same change.
-- Icons are the Tabler outline set, pinned to `@tabler/icons@3.19.0`, vendored in
-  `vendor/tabler/outline` (MIT, see `vendor/tabler/LICENSE`). Never mix in another icon set.
+- Icons are the whole Tabler set (outline and filled), pinned to `@tabler/icons@3.19.0`, vendored in
+  `vendor/tabler/outline` and `vendor/tabler/filled` (MIT, see `vendor/tabler/LICENSE`). Never mix in
+  another icon set.
 
 ## 3. Stack
 
@@ -69,6 +70,9 @@ Do not add runtime dependencies (Tailwind, Node build tooling, React…) without
 - Documentation app (mounted at `/componeer`): `config/docs.yml` (pages), 
   `app/views/componeer/docs/examples/_<name>.html.erb` (live examples, shown with their source),
   `app/controllers/componeer/docs_controller.rb`, `app/models/componeer/doc_page.rb`.
+- Example screens: `app/views/componeer/screens/_<name>.html.erb`, whole pages built only from
+  helpers, listed in `config/docs.yml` (group "Screens", `screen:` key) and served at
+  `/componeer/screens/<name>`. When a component changes, check the screens still read well.
 
 ## 5. Adding or changing a component
 

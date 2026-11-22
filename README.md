@@ -62,8 +62,9 @@ registerComponeer(application)
 
 ## Documentation
 
-The gem ships its documentation as a mountable app: guides, every component with live examples and their
-ERB source, options and slots.
+The gem ships its documentation as a mountable app: guides, four full example screens (list with detail,
+dashboard, settings form, list with confirmation), every component with live examples and their ERB
+source, options and slots, and a searchable gallery of all Tabler icons.
 
 ```ruby
 # config/routes.rb
@@ -81,7 +82,7 @@ bin/rails server   # then open http://localhost:3000/componeer
 
 | Group | Helpers |
 |-------|---------|
-| Foundations | `icon` |
+| Foundations | `icon` (every Tabler icon, outline and filled: `icon "star", variant: :filled`) |
 | Actions | `button`, `icon_button`, `segmented` |
 | Forms | `field`, `search_input`, `toggle_switch` (+ `tr-input`, `tr-select`, `tr-check` on Rails form helpers) |
 | Status | `status_dot`, `status_pill`, `counter`, `badge`, `callout` |
@@ -110,4 +111,4 @@ source of truth for the look.
 
 ## License
 
-MIT for Componeer's code. Tabler Icons are MIT, © Paweł Kuna (`vendor/tabler/LICENSE`).
+MIT for Componeer's code. Tabler Icons (outline and filled) are MIT, © Paweł Kuna (`vendor/tabler/LICENSE`).

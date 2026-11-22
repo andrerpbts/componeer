@@ -25,8 +25,11 @@ module Componeer
       @group_by ? @rows.group_by(&@group_by) : { nil => @rows }
     end
 
+    # A column block may write ERB or just return a value (a String, a number…); both render.
     def cell(column, row)
-      helpers.capture(row, &column.block)
+      result = nil
+      written = helpers.capture { result = column.block.call(row); nil }
+      written.presence || result.to_s
     end
 
     def row_attributes(row)

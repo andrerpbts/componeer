@@ -1,0 +1,13 @@
+<div class="doc-icons" data-controller="docs-icons">
+  <div class="tr-filters" style="padding: 0">
+    <%= search_input name: :icon_query, placeholder: "Buscar ícone (ex.: calendar, arrow, user)", data: { action: "input->docs-icons#filter", "docs-icons-target": "query" } %>
+    <%= segmented(label: "Variante") do |variants| %>
+      <% variants.with_item "Outline · #{Componeer::Icons.names(variant: :outline).size}", pressed: true, data: { action: "docs-icons#show", variant: "outline" } %>
+      <% variants.with_item "Filled · #{Componeer::Icons.names(variant: :filled).size}", data: { action: "docs-icons#show", variant: "filled" } %>
+    <% end %>
+  </div>
+  <p class="tr-muted" data-docs-icons-target="status" aria-live="polite">Clique num ícone para copiar o código.</p>
+  <%= icon_gallery_grid(:outline) %>
+  <%= icon_gallery_grid(:filled, hidden: true) %>
+  <p class="tr-empty" hidden data-docs-icons-target="none">Nenhum ícone com esse nome.</p>
+</div>
