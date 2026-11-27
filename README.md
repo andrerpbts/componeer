@@ -5,6 +5,8 @@
   </picture>
 </h1>
 
+[![Support this project](https://img.shields.io/badge/Support%20this%20project-2563EB?style=flat&logo=githubsponsors&logoColor=white)](https://buymeacoffee.com/andrerpbts)
+
 Trail UI components for Rails views, written as helpers that nest.
 
 ![A dashboard built only with Componeer helpers: sidebar, page header with view switch and project filter, warning callout, cards with tables and status pills](docs/screenshot.png)
